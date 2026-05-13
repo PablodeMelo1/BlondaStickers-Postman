@@ -1,0 +1,1761 @@
+{
+  "info": {
+    "_postman_id": "15f95fcc-da5d-4cd4-81eb-59a39e796814",
+    "name": "BlondaStickers",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Casos de exito",
+      "item": [
+        {
+          "name": "MFA",
+          "item": [
+            {
+              "name": "Verify TOTP",
+              "id": "de69707e-ca08-4435-8296-5096cfd99de6",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "{{Content-Type}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "{{Origin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"code\": \"343283\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/two-factor/verify-totp",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "two-factor",
+                    "verify-totp"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "MFA Enable",
+              "id": "fb816289-0591-498c-9ed3-6418330796c5",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "{{Content-Type}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "{{Origin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"password\": \"123456789\",\r\n  \"method\": \"otp\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/two-factor/enable",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "two-factor",
+                    "enable"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Send OTP",
+              "id": "fa736cbe-1ae1-452b-b66f-763476619803",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "{{Content-Type}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "{{Origin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/two-factor/send-otp",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "two-factor",
+                    "send-otp"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Verify OTP",
+              "id": "14c3878f-b2a5-480c-92af-9457448229b4",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "{{Content-Type}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "{{Origin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"code\": \"139369\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/two-factor/verify-otp",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "two-factor",
+                    "verify-otp"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Verify TOTP",
+              "id": "f00edbf0-44b9-4351-ba52-11036071cf88",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "{{Content-Type}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "{{Origin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"code\": \"343283\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/two-factor/verify-totp",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "two-factor",
+                    "verify-totp"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "91cc631a-4493-4c59-b33c-678e2aa96740"
+        },
+        {
+          "name": "Sessions",
+          "item": [
+            {
+              "name": "Sign Up",
+              "id": "e92bb6a6-c5a6-4f8e-b478-cf86f8c4ee51",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "{{Content-Type}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "{{Origin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Santiago Prado\",\r\n  \"firstName\": \"Santiago\",\r\n  \"lastName\": \"Prado\",\r\n  \"email\": \"santiago@gmail.com\",\r\n  \"password\": \"123456789\",\r\n  \"phone\": 94901505\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/sign-up/email",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "sign-up",
+                    "email"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Sign Out",
+              "id": "7e9c859e-49f0-4a48-b6c3-88db2d235a18",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "{{Content-Type}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "{{Origin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/sign-out",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "sign-out"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Sign In",
+              "id": "4885e378-39e8-4036-bbd3-a089dcdfc846",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "{{Content-Type}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "{{Origin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"email\": \"santiago@gmail.com\",\r\n  \"password\": \"123456789\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/sign-in/email",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "sign-in",
+                    "email"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Session",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('session request is handled', function () {",
+                      "  pm.expect(pm.response.code).to.be.oneOf([200, 401]);",
+                      "});"
+                    ],
+                    "id": "0d0e00e2-0f40-4fd4-8363-6bcd2720ddc1"
+                  }
+                }
+              ],
+              "id": "7b3e1db7-f4e0-47b2-8487-dd468cab95ab",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/get-session",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "get-session"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "576e051e-5c8e-4b07-b6cc-6f4c4043ceaa"
+        },
+        {
+          "name": "Users",
+          "item": [
+            {
+              "name": "All Users",
+              "id": "e1f45f4c-5096-42b2-809d-3cd2764f57c2",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "{{Content-Type}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "{{Origin}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/users",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "users"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "User",
+              "id": "1e8a50f6-00db-4c52-8de5-1f26aeffeac9",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "{{Content-Type}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "{{Origin}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/users/69ee32f35567740648a90f97",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "users",
+                    "69ee32f35567740648a90f97"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "User Adressess",
+              "id": "3c08b26b-f503-4fe6-80a0-77b585feab81",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "{{Content-Type}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "{{Origin}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/users/69ee32f35567740648a90f97/addresses",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "users",
+                    "69ee32f35567740648a90f97",
+                    "addresses"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "04-Forget password",
+              "id": "c7243d85-48e7-41ec-a848-cb403ad942fc",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"proyectoblondastickers@gmail.com\",\n  \"redirectTo\": \"http://localhost:5173/reset-password\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/forget-password",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "forget-password"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Reset-password",
+              "id": "8db9e5ba-e635-4d16-9821-1ed05434c8bb",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/reset-password",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "reset-password"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get profile",
+              "id": "d6bb2645-b4c5-4a12-ba7e-d4b767e02868",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/users/perfil",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "users",
+                    "perfil"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get all users (Admin only)",
+              "id": "507cb914-2fb2-4d50-8ab8-383876f411c6",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/users",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "users"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "51a78fe1-77ca-4115-aa83-8cce3bdf2734"
+        },
+        {
+          "name": "Categories - Public",
+          "item": [
+            {
+              "name": "List Visible Categories",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('public list returns 200', function () {",
+                      "  pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('response is an array', function () {",
+                      "  pm.expect(pm.response.json()).to.be.an('array');",
+                      "});"
+                    ],
+                    "id": "5cd0bfc1-7414-4660-b766-0a788e8776b1"
+                  }
+                }
+              ],
+              "id": "08ccdc3b-905b-44fe-8c8e-798cd30f7162",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories/visible",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "visible"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "77adcdd2-b2fd-44ef-a0da-fb537f885de2"
+        },
+        {
+          "name": "Categories - Private Auth Validations",
+          "item": [
+            {
+              "name": "List All Categories - Unauthorized",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('requires authentication', function () {",
+                      "  pm.response.to.have.status(401);",
+                      "});"
+                    ],
+                    "id": "1aa992f0-9123-4801-ab1a-7db4e393b7e8"
+                  }
+                }
+              ],
+              "id": "251605ee-c8ce-4c6e-b9c8-33d4311ae025",
+              "protocolProfileBehavior": {
+                "disableCookies": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List All Categories - Forbidden As Client",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('client role is forbidden', function () {",
+                      "  pm.response.to.have.status(403);",
+                      "});"
+                    ],
+                    "id": "1496c448-e8e7-4b44-88e0-3d6e74b81bf9"
+                  }
+                }
+              ],
+              "id": "abbedc91-b506-44e9-84b6-3d729851ca3a",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{clientCookie}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "8307c397-f226-4453-87ce-183f6826aeda"
+        },
+        {
+          "name": "Categories - Private CRUD And Validations",
+          "item": [
+            {
+              "name": "Create Category",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.environment.set('categoryName', `Postman Stickers ${Date.now()}`);"
+                    ],
+                    "id": "81ff6412-7bc8-4a56-a08c-fd56a9e69ddf"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('category is created', function () {",
+                      "  pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "const body = pm.response.json();",
+                      "pm.environment.set('categoryId', body._id || body.id);",
+                      "pm.environment.set('categoryName', body.name);"
+                    ],
+                    "id": "6d64e371-b7b0-4eb6-85ea-1ab82f1e0cc6"
+                  }
+                }
+              ],
+              "id": "4d66d9b2-3d37-4467-8e18-16f9e7254b33",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"{{categoryName}}\",\n  \"description\": \"{{categoryDescription}}\",\n  \"visibleInMenu\": true\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List All Categories",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('admin can list all categories', function () {",
+                      "  pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('response is an array', function () {",
+                      "  pm.expect(pm.response.json()).to.be.an('array');",
+                      "});"
+                    ],
+                    "id": "5280d450-c138-4d4d-bb87-eb1f712a973d"
+                  }
+                }
+              ],
+              "id": "dcd7b35f-7546-4dcd-ac0f-fda09759f1ac",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Category - Missing Name",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('missing name returns 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "id": "74d7906c-4263-4551-bc30-33b9457269f8"
+                  }
+                }
+              ],
+              "id": "01d41e87-cce6-4c55-b456-0d984ab7c128",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \" \"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Category - Unsupported Field",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('unsupported fields return 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "id": "77c52086-89f0-49c1-8bfb-d663b012bb62"
+                  }
+                }
+              ],
+              "id": "4c45f6cd-74d8-438f-814f-0612deef1c20",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Invalid Category\",\n  \"slug\": \"invalid-category\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Category - Invalid Description",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('invalid description returns 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "id": "b9ec24cc-a3d4-4529-a6ef-39365dd496f2"
+                  }
+                }
+              ],
+              "id": "f465bf6d-b750-4c73-b98b-2a0f329bdb27",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Invalid Description\",\n  \"description\": 123\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Category - Invalid Visibility",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('invalid visibleInMenu returns 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "id": "6ac7082f-2256-41a7-88d4-1d43cc481ae5"
+                  }
+                }
+              ],
+              "id": "ccb38bf0-48fe-4a8c-ae62-ae24526fce59",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Invalid Visibility\",\n  \"visibleInMenu\": \"yes\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Category - Duplicate Name",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('duplicate name returns 409', function () {",
+                      "  pm.response.to.have.status(409);",
+                      "});"
+                    ],
+                    "id": "699b8b43-5d03-4ec9-b6a0-97ee38668171"
+                  }
+                }
+              ],
+              "id": "4493be52-66d0-4c75-b540-0233b97e772d",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"{{categoryName}}\",\n  \"description\": \"Duplicate category\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Category",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('category is updated', function () {",
+                      "  pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "const body = pm.response.json();",
+                      "pm.environment.set('categoryName', body.name);"
+                    ],
+                    "id": "2b77aa96-4ae5-4170-b658-c6f06810f68c"
+                  }
+                }
+              ],
+              "id": "b5ad3278-7971-4783-b55d-47cd3aa57469",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"{{categoryName}} Updated\",\n  \"description\": \"Updated from Postman\",\n  \"visibleInMenu\": false\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories/{{categoryId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "{{categoryId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Category - Empty Payload",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('empty update returns 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "id": "79acd275-b550-452f-a70c-444f612c1c35"
+                  }
+                }
+              ],
+              "id": "97adf098-b36d-4366-9bb5-fc8a6442d39b",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories/{{categoryId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "{{categoryId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Category - Invalid ID",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('invalid id returns 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "id": "8c5a69df-e04e-476b-9f55-0e80fbe87174"
+                  }
+                }
+              ],
+              "id": "cc7daa15-eb19-4202-84ae-b30d6887b940",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Should Not Update\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories/invalid-id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "invalid-id"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Category - Not Found",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('missing category returns 404', function () {",
+                      "  pm.response.to.have.status(404);",
+                      "});"
+                    ],
+                    "id": "783c6ae9-d9a6-4de3-aa8e-41eedc75f51d"
+                  }
+                }
+              ],
+              "id": "b90ee5b7-c451-4e53-8a7b-3ae3e7eae5e6",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Missing Category\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories/{{missingCategoryId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "{{missingCategoryId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Toggle Category Visibility",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('visibility is toggled', function () {",
+                      "  pm.response.to.have.status(200);",
+                      "});"
+                    ],
+                    "id": "4b56448b-aab3-4779-9eeb-89ba8c37957d"
+                  }
+                }
+              ],
+              "id": "8fd857e7-2a3b-4b16-87e8-d3743fc3c7f6",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories/{{categoryId}}/visibility",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "{{categoryId}}",
+                    "visibility"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Toggle Category Visibility - Invalid ID",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('invalid id returns 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "id": "0b8fce1e-93bf-4e44-9654-8c09eb6b46d0"
+                  }
+                }
+              ],
+              "id": "65435977-9854-4451-992d-74f5f280c6cf",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories/invalid-id/visibility",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "invalid-id",
+                    "visibility"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Toggle Category Visibility - Not Found",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('missing category returns 404', function () {",
+                      "  pm.response.to.have.status(404);",
+                      "});"
+                    ],
+                    "id": "52a18d22-ee64-4104-abd6-8899795eda0b"
+                  }
+                }
+              ],
+              "id": "e513a900-7be2-440e-91ca-ec4d861f8860",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories/{{missingCategoryId}}/visibility",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "{{missingCategoryId}}",
+                    "visibility"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Category - Invalid ID",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('invalid id returns 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "id": "d807346c-59b0-462c-80d2-294620887769"
+                  }
+                }
+              ],
+              "id": "b3a2d7e4-02cc-4234-8cf9-e789fe7d12de",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories/invalid-id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "invalid-id"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Category - Not Found",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('missing category returns 404', function () {",
+                      "  pm.response.to.have.status(404);",
+                      "});"
+                    ],
+                    "id": "7b21e763-4e3c-4bd1-a35d-5ee21596ef51"
+                  }
+                }
+              ],
+              "id": "3aed5b97-509f-4bda-95fe-84db4c604270",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories/{{missingCategoryId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "{{missingCategoryId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Category - With Associated Products",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('associated category delete is blocked', function () {",
+                      "  pm.expect(pm.response.code).to.be.oneOf([409, 404]);",
+                      "});"
+                    ],
+                    "id": "1f84bb8b-d8a1-4bc3-a337-f1219274674b"
+                  }
+                }
+              ],
+              "id": "e149a2ca-5a8f-45bc-a910-0b471d7ab775",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories/{{blockedCategoryId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "{{blockedCategoryId}}"
+                  ]
+                },
+                "description": "Configurar blockedCategoryId con una categoria que tenga productos asociados para validar el 409. Si queda vacia o no existe, el endpoint puede responder 404."
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Category",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('category is deleted', function () {",
+                      "  pm.response.to.have.status(204);",
+                      "});"
+                    ],
+                    "id": "57cb5152-8904-4117-a32c-73e1879e41c0"
+                  }
+                }
+              ],
+              "id": "a1c6634e-1676-4aed-b042-e87801d690aa",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Cookie",
+                    "value": "{{adminCookie}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories/{{categoryId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories",
+                    "{{categoryId}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "36cafd62-2ade-491c-8992-98cb5572d359"
+        },
+        {
+          "name": "Productos",
+          "item": [
+            {
+              "name": "Create product",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();",
+                      "",
+                      "if (response._id) {",
+                      "    pm.environment.set(\"product_id\", response._id);",
+                      "    console.log(\"¡ID guardado!: \" + response._id);",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "id": "a5027706-99c6-4a59-b70c-8023c24165db"
+                  }
+                }
+              ],
+              "id": "a132e0fa-b59e-43af-80f3-157ae14450a8",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Sticker Pockemon\",\n  \"descripcion\": \"Sticker holográfico\",\n  \"precioVenta\": 300,\n  \"costoUnitario\": 100,\n  \"imagenes\": [\n    \"https://miweb.com/sticker2.png\"\n  ],\n  \"activo\": true,\n  \"esPersonalizable\": true,\n  \"esBajoDemanda\": false,\n  \"categoria\": \"stickers\",\n  \"stock\": {\n    \"stockActual\": 60,\n    \"stockMinimo\": 10\n  },\n  \"camposPersonalizacion\": [\n    {\n      \"nombre\": \"Nombre\",\n      \"tipo\": \"texto\",\n      \"obligatorio\": true,\n      \"descripcion\": \"Nombre personalizado\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/products",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List paginated products",
+              "id": "11571292-5234-49e6-8f57-af43720f20f0",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/products?page=1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get detail",
+              "id": "de46e7a0-4a90-479c-b51f-f839d256fc2c",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/products/685f2d8c123456789abc1234",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products",
+                    "685f2d8c123456789abc1234"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update product",
+              "id": "8028c4ed-bde0-49a6-a873-3bab87b8f7b8",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"precioVenta\": 500,\n  \"costoUnitario\": 200,\n  \"activo\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/products/685f2d8c123456789abc1234",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products",
+                    "685f2d8c123456789abc1234"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete product",
+              "id": "7fcd78a2-2098-41d4-9e14-8b047fbdcfd4",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/products/685f2d8c123456789abc1234",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products",
+                    "685f2d8c123456789abc1234"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Toggle Product Visibility",
+              "id": "41903a5c-5ba1-4267-bdee-0921a62b7196",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/products/{{product_id}}/visibility",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "products",
+                    "{{product_id}}",
+                    "visibility"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "f0f15e8b-9e9a-4ec0-9143-05152d01d1cd"
+        },
+        {
+          "name": "Catalogo",
+          "item": [
+            {
+              "name": "Get Public Products",
+              "id": "5cb92389-33d4-44e3-828d-ed38a64ff39f",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/products",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "products"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Public Product Details",
+              "id": "e4223629-32bd-454f-a627-d2f9fcf5d78a",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/products",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "products"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "aece9b1b-8c85-4fba-9ee8-b776e3c770c4"
+        }
+      ],
+      "id": "d1c594d7-ff70-41a4-904a-90bafa94910d"
+    }
+  ],
+  "variable": [
+    {
+      "id": "00fb13a0-c4e7-40f5-bbf6-7df42e040e36",
+      "key": "Content-Type",
+      "value": ""
+    },
+    {
+      "id": "167c3d22-7777-4ad6-8482-82b35add2c7c",
+      "key": "Origin",
+      "value": ""
+    },
+    {
+      "id": "23570d07-cbf3-4f7f-8c7f-986caa2bac05",
+      "key": "base_url",
+      "value": ""
+    }
+  ]
+}
