@@ -1735,12 +1735,491 @@
               "response": []
             }
           ],
-          "id": "aece9b1b-8c85-4fba-9ee8-b776e3c770c4"
-        }
-      ],
-      "id": "d1c594d7-ff70-41a4-904a-90bafa94910d"
-    }
-  ],
+        "id": "aece9b1b-8c85-4fba-9ee8-b776e3c770c4"
+      },
+      {
+        "name": "Cart API",
+        "item": [
+          {
+            "name": "1. Happy path - producto on demand",
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "exec": [
+                    "// Asigná IDs reales en el environment antes de ejecutar",
+                    "// pm.environment.set('productId', 'ID_REAL');",
+                    "// pm.environment.set('variantId', 'ID_REAL');"
+                  ],
+                  "type": "text/javascript"
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('producto agregado al carrito', function () {",
+                    "  pm.response.to.have.status(200);",
+                    "});",
+                    "",
+                    "pm.test('respuesta contiene message y cart', function () {",
+                    "  const body = pm.response.json();",
+                    "  pm.expect(body).to.have.property('message');",
+                    "  pm.expect(body).to.have.property('cart');",
+                    "});",
+                    "",
+                    "const body = pm.response.json();",
+                    "if (body.cart && body.cart.items && body.cart.items.length > 0) {",
+                    "  pm.environment.set('cartItemId', body.cart.items[0]._id || body.cart.items[0].id);",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "id": "e7f2a1b3-4c5d-4e6f-8a7b-9c0d1e2f3a4b",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Cookie", "value": "{{clientCookie}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 2\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/cart/items",
+                "host": ["{{base_url}}"],
+                "path": ["api", "cart", "items"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "2. Sin autenticación",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('sin autenticación retorna 401', function () {",
+                    "  pm.response.to.have.status(401);",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "id": "f1a2b3c4-5d6e-4f7a-8b9c-0d1e2f3a4b5c",
+            "protocolProfileBehavior": {
+              "disableCookies": true
+            },
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/cart/items",
+                "host": ["{{base_url}}"],
+                "path": ["api", "cart", "items"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "3. productId inválido",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('productId inválido retorna 400', function () {",
+                    "  pm.response.to.have.status(400);",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "id": "a1b2c3d4-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Cookie", "value": "{{clientCookie}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": \"invalido\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/cart/items",
+                "host": ["{{base_url}}"],
+                "path": ["api", "cart", "items"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "4. variantId inválido",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('variantId inválido retorna 400', function () {",
+                    "  pm.response.to.have.status(400);",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "id": "b2c3d4e5-6f7a-4b8c-9d0e-1f2a3b4c5d6e",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Cookie", "value": "{{clientCookie}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"invalido\",\n  \"quantity\": 1\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/cart/items",
+                "host": ["{{base_url}}"],
+                "path": ["api", "cart", "items"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "5. quantity inválida (0)",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('quantity 0 retorna 400', function () {",
+                    "  pm.response.to.have.status(400);",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "id": "c3d4e5f6-7a8b-4c9d-0e1f-2a3b4c5d6e7f",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Cookie", "value": "{{clientCookie}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 0\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/cart/items",
+                "host": ["{{base_url}}"],
+                "path": ["api", "cart", "items"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "6. quantity inválida (decimal)",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('quantity decimal retorna 400', function () {",
+                    "  pm.response.to.have.status(400);",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "id": "d4e5f6a7-8b9c-4d0e-1f2a-3b4c5d6e7f8a",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Cookie", "value": "{{clientCookie}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1.5\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/cart/items",
+                "host": ["{{base_url}}"],
+                "path": ["api", "cart", "items"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "7. Producto inexistente",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('producto inexistente retorna 404', function () {",
+                    "  pm.response.to.have.status(404);",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "id": "e5f6a7b8-9c0d-4e1f-2a3b-4c5d6e7f8a9b",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Cookie", "value": "{{clientCookie}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": \"507f1f77bcf86cd799439011\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/cart/items",
+                "host": ["{{base_url}}"],
+                "path": ["api", "cart", "items"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "8. Variante no pertenece al producto",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('variante incorrecta retorna 400', function () {",
+                    "  pm.response.to.have.status(400);",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "id": "f6a7b8c9-0d1e-4f2a-3b4c-5d6e7f8a9b0c",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Cookie", "value": "{{clientCookie}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"507f1f77bcf86cd799439999\",\n  \"quantity\": 1\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/cart/items",
+                "host": ["{{base_url}}"],
+                "path": ["api", "cart", "items"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "9. Acumulación - mismo producto + variante",
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "exec": [
+                    "// Ejecutar primero el caso 1, luego este.",
+                    "// Debe acumular quantity, no duplicar items"
+                  ],
+                  "type": "text/javascript"
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('producto acumulado correctamente', function () {",
+                    "  pm.response.to.have.status(200);",
+                    "});",
+                    "",
+                    "pm.test('quantity se acumuló', function () {",
+                    "  const body = pm.response.json();",
+                    "  pm.expect(body).to.have.property('cart');",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "id": "a7b8c9d0-1e2f-4a3b-4c5d-6e7f8a9b0c1d",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Cookie", "value": "{{clientCookie}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 3\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/cart/items",
+                "host": ["{{base_url}}"],
+                "path": ["api", "cart", "items"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "10. Producto customizable con customización",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('item customizado agregado', function () {",
+                    "  pm.response.to.have.status(200);",
+                    "});",
+                    "",
+                    "pm.test('respuesta contiene cart con customization', function () {",
+                    "  const body = pm.response.json();",
+                    "  pm.expect(body).to.have.property('cart');",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "id": "b8c9d0e1-2f3a-4b5c-6d7e-8f9a0b1c2d3e",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Cookie", "value": "{{clientCookie}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1,\n  \"customization\": {\n    \"notes\": \"Sin borde blanco\",\n    \"fields\": { \"color\": \"rojo\" }\n  }\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/cart/items",
+                "host": ["{{base_url}}"],
+                "path": ["api", "cart", "items"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "11. Misma variante, distinta customización",
+            "event": [
+              {
+                "listen": "prerequest",
+                "script": {
+                  "exec": [
+                    "// Ejecutar después del caso 10.",
+                    "// Debe crear un item separado (no acumular)",
+                    "// porque la customización es diferente"
+                  ],
+                  "type": "text/javascript"
+                }
+              },
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('nuevo item con distinta customization', function () {",
+                    "  pm.response.to.have.status(200);",
+                    "});",
+                    "",
+                    "pm.test('hay múltiples items en el carrito', function () {",
+                    "  const body = pm.response.json();",
+                    "  pm.expect(body.cart.items.length).to.be.at.least(2);",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "id": "c9d0e1f2-3a4b-4c5d-6e7f-8a9b0c1d2e3f",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Cookie", "value": "{{clientCookie}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 2,\n  \"customization\": {\n    \"notes\": \"Con brillo\",\n    \"fields\": { \"color\": \"azul\" }\n  }\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/cart/items",
+                "host": ["{{base_url}}"],
+                "path": ["api", "cart", "items"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "12. Customización como objeto plano (sin notes)",
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "pm.test('customización plana aceptada', function () {",
+                    "  pm.response.to.have.status(200);",
+                    "});",
+                    "",
+                    "pm.test('campos planos envueltos en fields', function () {",
+                    "  const body = pm.response.json();",
+                    "  pm.expect(body).to.have.property('cart');",
+                    "});"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ],
+            "id": "d0e1f2a3-4b5c-4d6e-7f8a-9b0c1d2e3f4a",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Cookie", "value": "{{clientCookie}}" }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1,\n  \"customization\": {\n    \"color\": \"verde\",\n    \"tamaño\": \"grande\"\n  }\n}"
+              },
+              "url": {
+                "raw": "{{base_url}}/api/cart/items",
+                "host": ["{{base_url}}"],
+                "path": ["api", "cart", "items"]
+              }
+            },
+            "response": []
+          }
+        ],
+        "id": "c4a8b3f2-1d5e-4a7c-9b6d-3e8f2a1c5b7d"
+      }
+    ],
+    "id": "d1c594d7-ff70-41a4-904a-90bafa94910d"
+  }
+],
   "variable": [
     {
       "id": "00fb13a0-c4e7-40f5-bbf6-7df42e040e36",
@@ -1756,6 +2235,16 @@
       "id": "23570d07-cbf3-4f7f-8c7f-986caa2bac05",
       "key": "base_url",
       "value": ""
+    },
+    {
+      "key": "productId",
+      "value": "REEMPLAZAR_CON_ID_REAL",
+      "type": "string"
+    },
+    {
+      "key": "variantId",
+      "value": "REEMPLAZAR_CON_ID_REAL",
+      "type": "string"
     }
   ]
 }
