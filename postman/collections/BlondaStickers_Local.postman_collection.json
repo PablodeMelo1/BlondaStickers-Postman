@@ -1,0 +1,280 @@
+{
+  "info": {
+    "name": "BlondaStickers_Local",
+    "description": "Colección de requests para el backend BlondaStickers en entorno local",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "05 - Cart",
+      "description": "Endpoints del carrito de compras",
+      "item": [
+        {
+          "name": "01 - Add Item to Cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200 - Product added successfully\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has message and cart\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json).to.have.property(\"message\");",
+                  "    pm.expect(json).to.have.property(\"cart\");",
+                  "    pm.expect(json.cart).to.have.property(\"items\");",
+                  "    pm.expect(json.cart).to.have.property(\"total\");",
+                  "});",
+                  "",
+                  "pm.test(\"Item appears in cart with correct subtotal\", function () {",
+                  "    const json = pm.response.json();",
+                  "    const cart = json.cart;",
+                  "    const newItem = cart.items[cart.items.length - 1];",
+                  "    pm.expect(newItem).to.have.property(\"unitPrice\");",
+                  "    pm.expect(newItem).to.have.property(\"quantity\");",
+                  "    pm.expect(newItem).to.have.property(\"subtotal\");",
+                  "    pm.expect(newItem.subtotal).to.eql(Math.round(newItem.unitPrice * newItem.quantity * 100) / 100);",
+                  "});",
+                  "",
+                  "pm.test(\"Cart total matches sum of item subtotals\", function () {",
+                  "    const json = pm.response.json();",
+                  "    const items = json.cart.items;",
+                  "    const expectedTotal = items.reduce((sum, item) => sum + item.subtotal, 0);",
+                  "    pm.expect(json.cart.total).to.eql(Math.round(expectedTotal * 100) / 100);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "better-auth.session={{clientCookie}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"productId\": \"{{productId}}\",\n    \"variantId\": \"{{variantId}}\",\n    \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cart/items",
+              "host": ["{{base_url}}"],
+              "path": ["api", "cart", "items"]
+            }
+          }
+        },
+        {
+          "name": "02 - Get Cart Items",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200 - Cart items retrieved\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has items array and total\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json).to.have.property(\"items\").that.is.an(\"array\");",
+                  "    pm.expect(json).to.have.property(\"total\").that.is.a(\"number\");",
+                  "});",
+                  "",
+                  "pm.test(\"Each item has required fields\", function () {",
+                  "    const json = pm.response.json();",
+                  "    json.items.forEach(function(item, index) {",
+                  "        pm.expect(item).to.have.property(\"_id\");",
+                  "        pm.expect(item).to.have.property(\"product\");",
+                  "        pm.expect(item).to.have.property(\"variantId\");",
+                  "        pm.expect(item).to.have.property(\"productName\");",
+                  "        pm.expect(item).to.have.property(\"unitPrice\").that.is.a(\"number\");",
+                  "        pm.expect(item).to.have.property(\"quantity\").that.is.a(\"number\");",
+                  "        pm.expect(item).to.have.property(\"subtotal\").that.is.a(\"number\");",
+                  "        pm.expect(item).to.have.property(\"variantCombination\");",
+                  "    });",
+                  "});",
+                  "",
+                  "pm.test(\"Each item subtotal = unitPrice * quantity\", function () {",
+                  "    const json = pm.response.json();",
+                  "    json.items.forEach(function(item) {",
+                  "        const expected = Math.round(item.unitPrice * item.quantity * 100) / 100;",
+                  "        pm.expect(item.subtotal).to.eql(expected);",
+                  "    });",
+                  "});",
+                  "",
+                  "pm.test(\"Total matches sum of item subtotals\", function () {",
+                  "    const json = pm.response.json();",
+                  "    const calculated = json.items.reduce(function(sum, item) {",
+                  "        return sum + item.subtotal;",
+                  "    }, 0);",
+                  "    pm.expect(json.total).to.eql(Math.round(calculated * 100) / 100);",
+                  "});",
+                  "",
+                  "pm.test(\"Product field is populated (not just an ID string)\", function () {",
+                  "    const json = pm.response.json();",
+                  "    if (json.items.length > 0) {",
+                  "        const product = json.items[0].product;",
+                  "        pm.expect(product).to.be.an(\"object\");",
+                  "        pm.expect(product).to.have.property(\"name\");",
+                  "        pm.expect(product).to.have.property(\"isActive\");",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "better-auth.session={{clientCookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/cart/items",
+              "host": ["{{base_url}}"],
+              "path": ["api", "cart", "items"]
+            }
+          }
+        },
+        {
+          "name": "03 - Update Cart Item",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200 - Item quantity updated\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is the updated cart document\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json).to.have.property(\"items\").that.is.an(\"array\");",
+                  "    pm.expect(json).to.have.property(\"total\").that.is.a(\"number\");",
+                  "    pm.expect(json).to.have.property(\"user\");",
+                  "});",
+                  "",
+                  "pm.test(\"Item quantity reflects the update\", function () {",
+                  "    const json = pm.response.json();",
+                  "    const updatedItem = json.items.find(function(item) {",
+                  "        return item._id === pm.variables.get(\"cartItemId\") || item._id === pm.environment.get(\"cartItemId\");",
+                  "    });",
+                  "    if (updatedItem) {",
+                  "        pm.expect(updatedItem.quantity).to.eql(Number(pm.request.body.raw ? JSON.parse(pm.request.body.raw).quantity : 3));",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test(\"Item subtotal is recalculated\", function () {",
+                  "    const json = pm.response.json();",
+                  "    json.items.forEach(function(item) {",
+                  "        const expected = Math.round(item.unitPrice * item.quantity * 100) / 100;",
+                  "        pm.expect(item.subtotal).to.eql(expected);",
+                  "    });",
+                  "});",
+                  "",
+                  "pm.test(\"Cart total is recalculated\", function () {",
+                  "    const json = pm.response.json();",
+                  "    const calculated = json.items.reduce(function(sum, item) {",
+                  "        return sum + item.subtotal;",
+                  "    }, 0);",
+                  "    pm.expect(json.total).to.eql(Math.round(calculated * 100) / 100);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "better-auth.session={{clientCookie}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"quantity\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cart/items/{{cartItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "cart", "items", "{{cartItemId}}"]
+            }
+          }
+        },
+       
+        {
+          "name": "06 - Delete Cart Item (Success)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200 - Item removed successfully\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is the updated cart\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json).to.have.property(\"items\").that.is.an(\"array\");",
+                  "    pm.expect(json).to.have.property(\"total\").that.is.a(\"number\");",
+                  "});",
+                  "",
+                  "pm.test(\"Deleted item is no longer in the items array\", function () {",
+                  "    const json = pm.response.json();",
+                  "    const deletedItemId = pm.variables.get(\"cartItemId\") || pm.environment.get(\"cartItemId\");",
+                  "    const stillExists = json.items.some(function(item) {",
+                  "        return item._id === deletedItemId;",
+                  "    });",
+                  "    pm.expect(stillExists).to.be.false;",
+                  "});",
+                  "",
+                  "pm.test(\"Cart total is recalculated after removal\", function () {",
+                  "    const json = pm.response.json();",
+                  "    const calculated = json.items.reduce(function(sum, item) {",
+                  "        return sum + item.subtotal;",
+                  "    }, 0);",
+                  "    pm.expect(json.total).to.eql(Math.round(calculated * 100) / 100);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "better-auth.session={{clientCookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/cart/items/{{cartItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "cart", "items", "{{cartItemId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": []
+}
