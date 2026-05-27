@@ -382,6 +382,47 @@
                 }
               },
               "response": []
+            },
+            {
+              "name": "Sign In admin",
+              "id": "a6112ff8-6f69-470a-a7b5-6870b2da27d1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "{{Content-Type}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "{{Origin}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"email\": \"santiago@gmail.com\",\r\n  \"password\": \"123456789\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/sign-in/email",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "sign-in",
+                    "email"
+                  ]
+                }
+              },
+              "response": []
             }
           ],
           "id": "576e051e-5c8e-4b07-b6cc-6f4c4043ceaa"
@@ -1735,508 +1776,954 @@
               "response": []
             }
           ],
-        "id": "aece9b1b-8c85-4fba-9ee8-b776e3c770c4"
-      },
-      {
-        "name": "Pedidos y Mercado Pago",
-        "item": [
-          { "name": "01 - Login cliente", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}" }, "url": "{{base_url}}/api/auth/sign-in/email", "description": "Inicia sesion para que Postman conserve la cookie de Better Auth." }, "response": [] },
-          { "name": "02 - Obtener sesion actual", "request": { "method": "GET", "header": [], "url": "{{base_url}}/api/auth/get-session", "description": "Copiar el id de usuario a userId si se necesita crear o listar direcciones." }, "response": [] },
-          { "name": "03 - Crear direccion de envio", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"street\": \"Av. Italia\",\n  \"number\": 1234,\n  \"city\": \"Montevideo\",\n  \"department\": \"Montevideo\",\n  \"floorApt\": \"2B\"\n}" }, "url": "{{base_url}}/api/users/{{userId}}/addresses", "description": "Usar si el cliente no tiene direccion. Copiar el _id de la direccion creada a addressId." }, "response": [] },
-          { "name": "04 - Agregar producto personalizado al carrito", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1,\n  \"customization\": {\n    \"notes\": \"Usar logo enviado por WhatsApp\",\n    \"fields\": {\n      \"Texto\": \"Blonda\",\n      \"Color\": \"Rosa\"\n    }\n  }\n}" }, "url": "{{base_url}}/api/cart/items", "description": "Agrega un item ya personalizado. Si la variante es fisica, debe haber stock suficiente." }, "response": [] },
-          { "name": "05 - Ver carrito", "request": { "method": "GET", "header": [], "url": "{{base_url}}/api/cart/items", "description": "Verifica items, cantidades, variante y personalizacion antes del checkout." }, "response": [] },
-          { "name": "06A - Checkout con retiro", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"deliveryType\": \"PICKUP\"\n}" }, "url": "{{base_url}}/api/orders/checkout", "description": "Crea orden PENDING, reserva stock fisico y devuelve initPoint de Mercado Pago." }, "response": [] },
-          { "name": "06B - Checkout con envio", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"addressId\": \"{{addressId}}\",\n  \"shippingCost\": 180\n}" }, "url": "{{base_url}}/api/orders/checkout", "description": "Alternativa al retiro. Requiere addressId valido del cliente." }, "response": [] },
-          { "name": "07 - Webhook Mercado Pago aprobado", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"type\": \"payment\",\n  \"data\": {\n    \"id\": \"{{paymentId}}\"\n  }\n}" }, "url": "{{base_url}}/api/payments/mercadopago/webhook", "description": "Simula el webhook. El backend consulta el pago real y confirma o cancela la orden." }, "response": [] },
-          { "name": "Admin - Configurar token Mercado Pago", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"accessToken\": \"{{mercadoPagoAccessToken}}\"\n}" }, "url": "{{base_url}}/api/payments/mercadopago/token", "description": "Requiere usuario admin. Alternativamente configurar MERCADOPAGO_ACCESS_TOKEN en .env." }, "response": [] },
-          { "name": "Error - Checkout envio sin direccion", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"deliveryType\": \"SHIPPING\"\n}" }, "url": "{{base_url}}/api/orders/checkout", "description": "Debe responder 400 porque falta direccion de envio." }, "response": [] },
-          { "name": "Error - Agregar al carrito con stock insuficiente", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 9999\n}" }, "url": "{{base_url}}/api/cart/items", "description": "Para variantes fisicas debe responder error de stock insuficiente." }, "response": [] }
-        ]
-      },
-
-      {
-        "name": "Cart API",
-        "item": [
-          {
-            "name": "1. Happy path - producto on demand",
-            "event": [
-              {
-                "listen": "prerequest",
-                "script": {
-                  "exec": [
-                    "// Asigná IDs reales en el environment antes de ejecutar",
-                    "// pm.environment.set('productId', 'ID_REAL');",
-                    "// pm.environment.set('variantId', 'ID_REAL');"
+          "id": "aece9b1b-8c85-4fba-9ee8-b776e3c770c4"
+        },
+        {
+          "name": "Pedidos y Mercado Pago",
+          "item": [
+            {
+              "name": "01 - Login cliente",
+              "id": "b9567772-bcd6-422c-ace6-14bdb2d38fd9",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/sign-in/email",
+                  "host": [
+                    "{{base_url}}"
                   ],
-                  "type": "text/javascript"
-                }
+                  "path": [
+                    "api",
+                    "auth",
+                    "sign-in",
+                    "email"
+                  ]
+                },
+                "description": "Inicia sesion para que Postman conserve la cookie de Better Auth."
               },
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "pm.test('producto agregado al carrito', function () {",
-                    "  pm.response.to.have.status(200);",
-                    "});",
-                    "",
-                    "pm.test('respuesta contiene message y cart', function () {",
-                    "  const body = pm.response.json();",
-                    "  pm.expect(body).to.have.property('message');",
-                    "  pm.expect(body).to.have.property('cart');",
-                    "});",
-                    "",
-                    "const body = pm.response.json();",
-                    "if (body.cart && body.cart.items && body.cart.items.length > 0) {",
-                    "  pm.environment.set('cartItemId', body.cart.items[0]._id || body.cart.items[0].id);",
-                    "}"
+              "response": []
+            },
+            {
+              "name": "02 - Obtener sesion actual",
+              "id": "87fb5729-1636-4c17-ae59-73b2b49bb510",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/get-session",
+                  "host": [
+                    "{{base_url}}"
                   ],
-                  "type": "text/javascript"
+                  "path": [
+                    "api",
+                    "auth",
+                    "get-session"
+                  ]
+                },
+                "description": "Copiar el id de usuario a userId si se necesita crear o listar direcciones."
+              },
+              "response": []
+            },
+            {
+              "name": "03 - Crear direccion de envio",
+              "id": "2411cc4e-a46c-42d2-903d-14b5fc314f86",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"street\": \"Av. Italia\",\n  \"number\": 1234,\n  \"city\": \"Montevideo\",\n  \"department\": \"Montevideo\",\n  \"floorApt\": \"2B\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/users/{{userId}}/addresses",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "users",
+                    "{{userId}}",
+                    "addresses"
+                  ]
+                },
+                "description": "Usar si el cliente no tiene direccion. Copiar el _id de la direccion creada a addressId."
+              },
+              "response": []
+            },
+            {
+              "name": "04 - Agregar producto personalizado al carrito",
+              "id": "e8eb9506-49f6-4403-8146-1ad8060f9a04",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1,\n  \"customization\": {\n    \"notes\": \"Usar logo enviado por WhatsApp\",\n    \"fields\": {\n      \"Texto\": \"Blonda\",\n      \"Color\": \"Rosa\"\n    }\n  }\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
+                },
+                "description": "Agrega un item ya personalizado. Si la variante es fisica, debe haber stock suficiente."
+              },
+              "response": []
+            },
+            {
+              "name": "05 - Ver carrito",
+              "id": "5a2998d1-a4cf-4035-820c-f4c2b49e3c63",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
+                },
+                "description": "Verifica items, cantidades, variante y personalizacion antes del checkout."
+              },
+              "response": []
+            },
+            {
+              "name": "06A - Checkout con retiro",
+              "id": "7225e933-1387-4fb4-8f46-23680eb69842",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deliveryType\": \"PICKUP\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/orders/checkout",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders",
+                    "checkout"
+                  ]
+                },
+                "description": "Crea orden PENDING, reserva stock fisico y devuelve initPoint de Mercado Pago."
+              },
+              "response": []
+            },
+            {
+              "name": "06B - Checkout con envio",
+              "id": "79a55d06-c5d4-4d9c-938e-6a1469de7097",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"addressId\": \"{{addressId}}\",\n  \"shippingCost\": 180\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/orders/checkout",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders",
+                    "checkout"
+                  ]
+                },
+                "description": "Alternativa al retiro. Requiere addressId valido del cliente."
+              },
+              "response": []
+            },
+            {
+              "name": "07 - Webhook Mercado Pago aprobado",
+              "id": "ac0f57f7-2249-4988-a43c-99182a79c755",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"payment\",\n  \"data\": {\n    \"id\": \"{{paymentId}}\"\n  }\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/payments/mercadopago/webhook",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "payments",
+                    "mercadopago",
+                    "webhook"
+                  ]
+                },
+                "description": "Simula el webhook. El backend consulta el pago real y confirma o cancela la orden."
+              },
+              "response": []
+            },
+            {
+              "name": "Admin - Configurar token Mercado Pago",
+              "id": "2a103394-c55c-4aea-b6ba-3e1afba6243e",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accessToken\": \"{{mercadoPagoAccessToken}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/payments/mercadopago/token",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "payments",
+                    "mercadopago",
+                    "token"
+                  ]
+                },
+                "description": "Requiere usuario admin. Alternativamente configurar MERCADOPAGO_ACCESS_TOKEN en .env."
+              },
+              "response": []
+            },
+            {
+              "name": "Error - Checkout envio sin direccion",
+              "id": "693af11e-801d-4738-9893-40316fddcaa5",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deliveryType\": \"SHIPPING\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/orders/checkout",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders",
+                    "checkout"
+                  ]
+                },
+                "description": "Debe responder 400 porque falta direccion de envio."
+              },
+              "response": []
+            },
+            {
+              "name": "Error - Agregar al carrito con stock insuficiente",
+              "id": "b64e95cb-0a0a-457d-845d-68ff0a8cccfb",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 9999\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
+                },
+                "description": "Para variantes fisicas debe responder error de stock insuficiente."
+              },
+              "response": []
+            }
+          ],
+          "id": "0fecf4f4-c0ca-42c5-bb50-ce8c2a1bfe48"
+        },
+        {
+          "name": "Cart API",
+          "item": [
+            {
+              "name": "1. Happy path - producto on demand",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "// Asigná IDs reales en el environment antes de ejecutar",
+                      "// pm.environment.set('productId', 'ID_REAL');",
+                      "// pm.environment.set('variantId', 'ID_REAL');"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('producto agregado al carrito', function () {",
+                      "  pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('respuesta contiene message y cart', function () {",
+                      "  const body = pm.response.json();",
+                      "  pm.expect(body).to.have.property('message');",
+                      "  pm.expect(body).to.have.property('cart');",
+                      "});",
+                      "",
+                      "const body = pm.response.json();",
+                      "if (body.cart && body.cart.items && body.cart.items.length > 0) {",
+                      "  pm.environment.set('cartItemId', body.cart.items[0]._id || body.cart.items[0].id);",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
                 }
-              }
-            ],
-            "id": "e7f2a1b3-4c5d-4e6f-8a7b-9c0d1e2f3a4b",
-            "request": {
-              "method": "POST",
-              "header": [
-                { "key": "Content-Type", "value": "application/json" },
-                { "key": "Cookie", "value": "{{clientCookie}}" }
               ],
-              "body": {
-                "mode": "raw",
-                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 2\n}"
-              },
-              "url": {
-                "raw": "{{base_url}}/api/cart/items",
-                "host": ["{{base_url}}"],
-                "path": ["api", "cart", "items"]
-              }
-            },
-            "response": []
-          },
-          {
-            "name": "2. Sin autenticación",
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "pm.test('sin autenticación retorna 401', function () {",
-                    "  pm.response.to.have.status(401);",
-                    "});"
+              "id": "e7f2a1b3-4c5d-4e6f-8a7b-9c0d1e2f3a4b",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{clientCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 2\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
                   ],
-                  "type": "text/javascript"
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
                 }
-              }
-            ],
-            "id": "f1a2b3c4-5d6e-4f7a-8b9c-0d1e2f3a4b5c",
-            "protocolProfileBehavior": {
-              "disableCookies": true
+              },
+              "response": []
             },
-            "request": {
-              "method": "POST",
-              "header": [
-                { "key": "Content-Type", "value": "application/json" }
+            {
+              "name": "2. Sin autenticación",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('sin autenticación retorna 401', function () {",
+                      "  pm.response.to.have.status(401);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
               ],
-              "body": {
-                "mode": "raw",
-                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1\n}"
+              "id": "f1a2b3c4-5d6e-4f7a-8b9c-0d1e2f3a4b5c",
+              "protocolProfileBehavior": {
+                "disableCookies": true
               },
-              "url": {
-                "raw": "{{base_url}}/api/cart/items",
-                "host": ["{{base_url}}"],
-                "path": ["api", "cart", "items"]
-              }
-            },
-            "response": []
-          },
-          {
-            "name": "3. productId inválido",
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "pm.test('productId inválido retorna 400', function () {",
-                    "  pm.response.to.have.status(400);",
-                    "});"
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
                   ],
-                  "type": "text/javascript"
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
                 }
-              }
-            ],
-            "id": "a1b2c3d4-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
-            "request": {
-              "method": "POST",
-              "header": [
-                { "key": "Content-Type", "value": "application/json" },
-                { "key": "Cookie", "value": "{{clientCookie}}" }
+              },
+              "response": []
+            },
+            {
+              "name": "3. productId inválido",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('productId inválido retorna 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
               ],
-              "body": {
-                "mode": "raw",
-                "raw": "{\n  \"productId\": \"invalido\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1\n}"
-              },
-              "url": {
-                "raw": "{{base_url}}/api/cart/items",
-                "host": ["{{base_url}}"],
-                "path": ["api", "cart", "items"]
-              }
-            },
-            "response": []
-          },
-          {
-            "name": "4. variantId inválido",
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "pm.test('variantId inválido retorna 400', function () {",
-                    "  pm.response.to.have.status(400);",
-                    "});"
+              "id": "a1b2c3d4-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{clientCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"invalido\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
                   ],
-                  "type": "text/javascript"
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
                 }
-              }
-            ],
-            "id": "b2c3d4e5-6f7a-4b8c-9d0e-1f2a3b4c5d6e",
-            "request": {
-              "method": "POST",
-              "header": [
-                { "key": "Content-Type", "value": "application/json" },
-                { "key": "Cookie", "value": "{{clientCookie}}" }
+              },
+              "response": []
+            },
+            {
+              "name": "4. variantId inválido",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('variantId inválido retorna 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
               ],
-              "body": {
-                "mode": "raw",
-                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"invalido\",\n  \"quantity\": 1\n}"
-              },
-              "url": {
-                "raw": "{{base_url}}/api/cart/items",
-                "host": ["{{base_url}}"],
-                "path": ["api", "cart", "items"]
-              }
-            },
-            "response": []
-          },
-          {
-            "name": "5. quantity inválida (0)",
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "pm.test('quantity 0 retorna 400', function () {",
-                    "  pm.response.to.have.status(400);",
-                    "});"
+              "id": "b2c3d4e5-6f7a-4b8c-9d0e-1f2a3b4c5d6e",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{clientCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"invalido\",\n  \"quantity\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
                   ],
-                  "type": "text/javascript"
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
                 }
-              }
-            ],
-            "id": "c3d4e5f6-7a8b-4c9d-0e1f-2a3b4c5d6e7f",
-            "request": {
-              "method": "POST",
-              "header": [
-                { "key": "Content-Type", "value": "application/json" },
-                { "key": "Cookie", "value": "{{clientCookie}}" }
+              },
+              "response": []
+            },
+            {
+              "name": "5. quantity inválida (0)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('quantity 0 retorna 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
               ],
-              "body": {
-                "mode": "raw",
-                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 0\n}"
-              },
-              "url": {
-                "raw": "{{base_url}}/api/cart/items",
-                "host": ["{{base_url}}"],
-                "path": ["api", "cart", "items"]
-              }
-            },
-            "response": []
-          },
-          {
-            "name": "6. quantity inválida (decimal)",
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "pm.test('quantity decimal retorna 400', function () {",
-                    "  pm.response.to.have.status(400);",
-                    "});"
+              "id": "c3d4e5f6-7a8b-4c9d-0e1f-2a3b4c5d6e7f",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{clientCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 0\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
                   ],
-                  "type": "text/javascript"
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
                 }
-              }
-            ],
-            "id": "d4e5f6a7-8b9c-4d0e-1f2a-3b4c5d6e7f8a",
-            "request": {
-              "method": "POST",
-              "header": [
-                { "key": "Content-Type", "value": "application/json" },
-                { "key": "Cookie", "value": "{{clientCookie}}" }
+              },
+              "response": []
+            },
+            {
+              "name": "6. quantity inválida (decimal)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('quantity decimal retorna 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
               ],
-              "body": {
-                "mode": "raw",
-                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1.5\n}"
-              },
-              "url": {
-                "raw": "{{base_url}}/api/cart/items",
-                "host": ["{{base_url}}"],
-                "path": ["api", "cart", "items"]
-              }
-            },
-            "response": []
-          },
-          {
-            "name": "7. Producto inexistente",
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "pm.test('producto inexistente retorna 404', function () {",
-                    "  pm.response.to.have.status(404);",
-                    "});"
+              "id": "d4e5f6a7-8b9c-4d0e-1f2a-3b4c5d6e7f8a",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{clientCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1.5\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
                   ],
-                  "type": "text/javascript"
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
                 }
-              }
-            ],
-            "id": "e5f6a7b8-9c0d-4e1f-2a3b-4c5d6e7f8a9b",
-            "request": {
-              "method": "POST",
-              "header": [
-                { "key": "Content-Type", "value": "application/json" },
-                { "key": "Cookie", "value": "{{clientCookie}}" }
+              },
+              "response": []
+            },
+            {
+              "name": "7. Producto inexistente",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('producto inexistente retorna 404', function () {",
+                      "  pm.response.to.have.status(404);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
               ],
-              "body": {
-                "mode": "raw",
-                "raw": "{\n  \"productId\": \"507f1f77bcf86cd799439011\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1\n}"
-              },
-              "url": {
-                "raw": "{{base_url}}/api/cart/items",
-                "host": ["{{base_url}}"],
-                "path": ["api", "cart", "items"]
-              }
-            },
-            "response": []
-          },
-          {
-            "name": "8. Variante no pertenece al producto",
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "pm.test('variante incorrecta retorna 400', function () {",
-                    "  pm.response.to.have.status(400);",
-                    "});"
+              "id": "e5f6a7b8-9c0d-4e1f-2a3b-4c5d6e7f8a9b",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{clientCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"507f1f77bcf86cd799439011\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
                   ],
-                  "type": "text/javascript"
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
                 }
-              }
-            ],
-            "id": "f6a7b8c9-0d1e-4f2a-3b4c-5d6e7f8a9b0c",
-            "request": {
-              "method": "POST",
-              "header": [
-                { "key": "Content-Type", "value": "application/json" },
-                { "key": "Cookie", "value": "{{clientCookie}}" }
+              },
+              "response": []
+            },
+            {
+              "name": "8. Variante no pertenece al producto",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('variante incorrecta retorna 400', function () {",
+                      "  pm.response.to.have.status(400);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
               ],
-              "body": {
-                "mode": "raw",
-                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"507f1f77bcf86cd799439999\",\n  \"quantity\": 1\n}"
+              "id": "f6a7b8c9-0d1e-4f2a-3b4c-5d6e7f8a9b0c",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{clientCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"507f1f77bcf86cd799439999\",\n  \"quantity\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
+                }
               },
-              "url": {
-                "raw": "{{base_url}}/api/cart/items",
-                "host": ["{{base_url}}"],
-                "path": ["api", "cart", "items"]
-              }
+              "response": []
             },
-            "response": []
-          },
-          {
-            "name": "9. Acumulación - mismo producto + variante",
-            "event": [
-              {
-                "listen": "prerequest",
-                "script": {
-                  "exec": [
-                    "// Ejecutar primero el caso 1, luego este.",
-                    "// Debe acumular quantity, no duplicar items"
-                  ],
-                  "type": "text/javascript"
+            {
+              "name": "9. Acumulación - mismo producto + variante",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "// Ejecutar primero el caso 1, luego este.",
+                      "// Debe acumular quantity, no duplicar items"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('producto acumulado correctamente', function () {",
+                      "  pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('quantity se acumuló', function () {",
+                      "  const body = pm.response.json();",
+                      "  pm.expect(body).to.have.property('cart');",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
                 }
-              },
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "pm.test('producto acumulado correctamente', function () {",
-                    "  pm.response.to.have.status(200);",
-                    "});",
-                    "",
-                    "pm.test('quantity se acumuló', function () {",
-                    "  const body = pm.response.json();",
-                    "  pm.expect(body).to.have.property('cart');",
-                    "});"
-                  ],
-                  "type": "text/javascript"
-                }
-              }
-            ],
-            "id": "a7b8c9d0-1e2f-4a3b-4c5d-6e7f8a9b0c1d",
-            "request": {
-              "method": "POST",
-              "header": [
-                { "key": "Content-Type", "value": "application/json" },
-                { "key": "Cookie", "value": "{{clientCookie}}" }
               ],
-              "body": {
-                "mode": "raw",
-                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 3\n}"
-              },
-              "url": {
-                "raw": "{{base_url}}/api/cart/items",
-                "host": ["{{base_url}}"],
-                "path": ["api", "cart", "items"]
-              }
-            },
-            "response": []
-          },
-          {
-            "name": "10. Producto customizable con customización",
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "pm.test('item customizado agregado', function () {",
-                    "  pm.response.to.have.status(200);",
-                    "});",
-                    "",
-                    "pm.test('respuesta contiene cart con customization', function () {",
-                    "  const body = pm.response.json();",
-                    "  pm.expect(body).to.have.property('cart');",
-                    "});"
+              "id": "a7b8c9d0-1e2f-4a3b-4c5d-6e7f8a9b0c1d",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{clientCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 3\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
                   ],
-                  "type": "text/javascript"
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
                 }
-              }
-            ],
-            "id": "b8c9d0e1-2f3a-4b5c-6d7e-8f9a0b1c2d3e",
-            "request": {
-              "method": "POST",
-              "header": [
-                { "key": "Content-Type", "value": "application/json" },
-                { "key": "Cookie", "value": "{{clientCookie}}" }
+              },
+              "response": []
+            },
+            {
+              "name": "10. Producto customizable con customización",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('item customizado agregado', function () {",
+                      "  pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('respuesta contiene cart con customization', function () {",
+                      "  const body = pm.response.json();",
+                      "  pm.expect(body).to.have.property('cart');",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
               ],
-              "body": {
-                "mode": "raw",
-                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1,\n  \"customization\": {\n    \"notes\": \"Sin borde blanco\",\n    \"fields\": { \"color\": \"rojo\" }\n  }\n}"
+              "id": "b8c9d0e1-2f3a-4b5c-6d7e-8f9a0b1c2d3e",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{clientCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1,\n  \"customization\": {\n    \"notes\": \"Sin borde blanco\",\n    \"fields\": { \"color\": \"rojo\" }\n  }\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
+                }
               },
-              "url": {
-                "raw": "{{base_url}}/api/cart/items",
-                "host": ["{{base_url}}"],
-                "path": ["api", "cart", "items"]
-              }
+              "response": []
             },
-            "response": []
-          },
-          {
-            "name": "11. Misma variante, distinta customización",
-            "event": [
-              {
-                "listen": "prerequest",
-                "script": {
-                  "exec": [
-                    "// Ejecutar después del caso 10.",
-                    "// Debe crear un item separado (no acumular)",
-                    "// porque la customización es diferente"
-                  ],
-                  "type": "text/javascript"
+            {
+              "name": "11. Misma variante, distinta customización",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "// Ejecutar después del caso 10.",
+                      "// Debe crear un item separado (no acumular)",
+                      "// porque la customización es diferente"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('nuevo item con distinta customization', function () {",
+                      "  pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('hay múltiples items en el carrito', function () {",
+                      "  const body = pm.response.json();",
+                      "  pm.expect(body.cart.items.length).to.be.at.least(2);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
                 }
-              },
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "pm.test('nuevo item con distinta customization', function () {",
-                    "  pm.response.to.have.status(200);",
-                    "});",
-                    "",
-                    "pm.test('hay múltiples items en el carrito', function () {",
-                    "  const body = pm.response.json();",
-                    "  pm.expect(body.cart.items.length).to.be.at.least(2);",
-                    "});"
-                  ],
-                  "type": "text/javascript"
-                }
-              }
-            ],
-            "id": "c9d0e1f2-3a4b-4c5d-6e7f-8a9b0c1d2e3f",
-            "request": {
-              "method": "POST",
-              "header": [
-                { "key": "Content-Type", "value": "application/json" },
-                { "key": "Cookie", "value": "{{clientCookie}}" }
               ],
-              "body": {
-                "mode": "raw",
-                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 2,\n  \"customization\": {\n    \"notes\": \"Con brillo\",\n    \"fields\": { \"color\": \"azul\" }\n  }\n}"
-              },
-              "url": {
-                "raw": "{{base_url}}/api/cart/items",
-                "host": ["{{base_url}}"],
-                "path": ["api", "cart", "items"]
-              }
-            },
-            "response": []
-          },
-          {
-            "name": "12. Customización como objeto plano (sin notes)",
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "pm.test('customización plana aceptada', function () {",
-                    "  pm.response.to.have.status(200);",
-                    "});",
-                    "",
-                    "pm.test('campos planos envueltos en fields', function () {",
-                    "  const body = pm.response.json();",
-                    "  pm.expect(body).to.have.property('cart');",
-                    "});"
+              "id": "c9d0e1f2-3a4b-4c5d-6e7f-8a9b0c1d2e3f",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{clientCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 2,\n  \"customization\": {\n    \"notes\": \"Con brillo\",\n    \"fields\": { \"color\": \"azul\" }\n  }\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
                   ],
-                  "type": "text/javascript"
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
                 }
-              }
-            ],
-            "id": "d0e1f2a3-4b5c-4d6e-7f8a-9b0c1d2e3f4a",
-            "request": {
-              "method": "POST",
-              "header": [
-                { "key": "Content-Type", "value": "application/json" },
-                { "key": "Cookie", "value": "{{clientCookie}}" }
-              ],
-              "body": {
-                "mode": "raw",
-                "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1,\n  \"customization\": {\n    \"color\": \"verde\",\n    \"tamaño\": \"grande\"\n  }\n}"
               },
-              "url": {
-                "raw": "{{base_url}}/api/cart/items",
-                "host": ["{{base_url}}"],
-                "path": ["api", "cart", "items"]
-              }
+              "response": []
             },
-            "response": []
-          }
-        ],
-        "id": "c4a8b3f2-1d5e-4a7c-9b6d-3e8f2a1c5b7d"
-      }
-    ],
-    "id": "d1c594d7-ff70-41a4-904a-90bafa94910d"
-  }
-],
+            {
+              "name": "12. Customización como objeto plano (sin notes)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('customización plana aceptada', function () {",
+                      "  pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('campos planos envueltos en fields', function () {",
+                      "  const body = pm.response.json();",
+                      "  pm.expect(body).to.have.property('cart');",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "id": "d0e1f2a3-4b5c-4d6e-7f8a-9b0c1d2e3f4a",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Cookie",
+                    "value": "{{clientCookie}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"variantId\": \"{{variantId}}\",\n  \"quantity\": 1,\n  \"customization\": {\n    \"color\": \"verde\",\n    \"tamaño\": \"grande\"\n  }\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/cart/items",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cart",
+                    "items"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "c4a8b3f2-1d5e-4a7c-9b6d-3e8f2a1c5b7d"
+        }
+      ],
+      "id": "d1c594d7-ff70-41a4-904a-90bafa94910d"
+    }
+  ],
   "variable": [
     {
       "id": "00fb13a0-c4e7-40f5-bbf6-7df42e040e36",
@@ -2254,41 +2741,49 @@
       "value": ""
     },
     {
+      "id": "a6dadd6f-b8d9-4fe7-a46b-3960c4b7f020",
       "key": "productId",
       "value": "REEMPLAZAR_CON_ID_REAL",
       "type": "string"
     },
     {
+      "id": "8ef7faaf-025a-4a27-9632-ae5583dd5213",
       "key": "variantId",
       "value": "REEMPLAZAR_CON_ID_REAL",
       "type": "string"
     },
     {
+      "id": "ee406175-8cb7-4189-b7ab-e937f6d337cc",
       "key": "email",
       "value": "cliente@example.com",
       "type": "string"
     },
     {
+      "id": "e3492301-6628-4738-81e8-bfb9c420fe72",
       "key": "password",
       "value": "Password123!",
       "type": "string"
     },
     {
+      "id": "03de79ff-2f63-4da0-b486-724ad1b858f3",
       "key": "userId",
       "value": "",
       "type": "string"
     },
     {
+      "id": "976f2a51-828a-4a85-ac29-b76d037caa91",
       "key": "addressId",
       "value": "",
       "type": "string"
     },
     {
+      "id": "f3d62007-2a3a-4ef0-9ed7-4d028dbe137f",
       "key": "mercadoPagoAccessToken",
       "value": "",
       "type": "string"
     },
     {
+      "id": "ad46bc3c-a805-4739-9a4a-1a01b966ba17",
       "key": "paymentId",
       "value": "",
       "type": "string"
