@@ -2007,37 +2007,6 @@
               "response": []
             },
             {
-              "name": "Admin - Configurar token Mercado Pago",
-              "id": "2a103394-c55c-4aea-b6ba-3e1afba6243e",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"accessToken\": \"{{mercadoPagoAccessToken}}\"\n}"
-                },
-                "url": {
-                  "raw": "{{base_url}}/api/payments/mercadopago/token",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "payments",
-                    "mercadopago",
-                    "token"
-                  ]
-                },
-                "description": "Requiere usuario admin. Alternativamente configurar MERCADOPAGO_ACCESS_TOKEN en .env."
-              },
-              "response": []
-            },
-            {
               "name": "Error - Checkout envio sin direccion",
               "id": "693af11e-801d-4738-9893-40316fddcaa5",
               "request": {
