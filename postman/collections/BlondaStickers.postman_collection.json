@@ -1928,7 +1928,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"deliveryType\": \"PICKUP\"\n}"
+                  "raw": "{\n  \"deliveryType\": \"PICKUP\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
                 },
                 "url": {
                   "raw": "{{base_url}}/api/orders/checkout",
@@ -1941,7 +1941,7 @@
                     "checkout"
                   ]
                 },
-                "description": "Crea orden PENDING, reserva stock fisico y devuelve initPoint de Mercado Pago."
+                "description": "Crea una orden PENDING, reserva stock fisico y devuelve initPoint de Mercado Pago."
               },
               "response": []
             },
@@ -1958,7 +1958,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"addressId\": \"{{addressId}}\",\n  \"shippingCost\": 180\n}"
+                  "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"addressId\": \"{{addressId}}\",\n  \"shippingOption\": \"DAC_AGENCY\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
                 },
                 "url": {
                   "raw": "{{base_url}}/api/orders/checkout",
@@ -1971,7 +1971,7 @@
                     "checkout"
                   ]
                 },
-                "description": "Alternativa al retiro. Requiere addressId valido del cliente."
+                "description": "Alternativa al retiro. El backend calcula shippingCost usando shippingOption; requiere addressId valido del cliente."
               },
               "response": []
             },
@@ -2740,17 +2740,27 @@
                 "value": "{{clientCookie}}"
               }
             ],
-            "url": "{{base_url}}/api/orders/checkout",
+            "url": {
+              "raw": "{{base_url}}/api/orders/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "checkout"
+              ]
+            },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"DAC_AGENCY\",\n  \"addressId\": \"{{addressId}}\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
             },
-            "description": "El backend calcula shippingCost=240 desde shippingOption y crea preferencia Mercado Pago."
+            "description": "El backend calcula shippingCost=240 desde shippingOption, lo incluye como item cobrable y crea preferencia Mercado Pago."
           },
           "response": []
         },
         {
-          "name": "Checkout transferencia Ita? con retiro",
+          "name": "Checkout transferencia Itau con retiro",
           "request": {
             "method": "POST",
             "header": [
@@ -2763,7 +2773,17 @@
                 "value": "{{clientCookie}}"
               }
             ],
-            "url": "{{base_url}}/api/orders/checkout",
+            "url": {
+              "raw": "{{base_url}}/api/orders/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "checkout"
+              ]
+            },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"deliveryType\": \"PICKUP\",\n  \"paymentProvider\": \"TRANSFER\",\n  \"transferBank\": \"ITAU\"\n}"
@@ -2786,7 +2806,17 @@
                 "value": "{{clientCookie}}"
               }
             ],
-            "url": "{{base_url}}/api/orders/checkout",
+            "url": {
+              "raw": "{{base_url}}/api/orders/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "checkout"
+              ]
+            },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"BLONDA_CADETE\",\n  \"addressId\": \"{{addressId}}\",\n  \"paymentProvider\": \"TRANSFER\",\n  \"transferBank\": \"MI_DINERO\"\n}"
@@ -2809,7 +2839,17 @@
                 "value": "{{clientCookie}}"
               }
             ],
-            "url": "{{base_url}}/api/orders/checkout",
+            "url": {
+              "raw": "{{base_url}}/api/orders/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "checkout"
+              ]
+            },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"DAC_HOME\",\n  \"shippingCost\": 0,\n  \"addressId\": \"{{addressId}}\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
@@ -2832,10 +2872,20 @@
                 "value": "{{clientCookie}}"
               }
             ],
-            "url": "{{base_url}}/api/orders/checkout",
+            "url": {
+              "raw": "{{base_url}}/api/orders/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "checkout"
+              ]
+            },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"FREE_SHIPPING\",\n  \"addressId\": \"{{addressId}}\"\n}"
+              "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"FREE_SHIPPING\",\n  \"addressId\": \"{{addressId}}\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
             },
             "description": "Debe responder 400 por opcion de envio invalida."
           },
@@ -2855,7 +2905,17 @@
                 "value": "{{clientCookie}}"
               }
             ],
-            "url": "{{base_url}}/api/orders/checkout",
+            "url": {
+              "raw": "{{base_url}}/api/orders/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "checkout"
+              ]
+            },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"deliveryType\": \"PICKUP\",\n  \"paymentProvider\": \"TRANSFER\",\n  \"transferBank\": \"BROU\"\n}"
@@ -2882,7 +2942,18 @@
                 "value": "{{webhookSignature}}"
               }
             ],
-            "url": "{{base_url}}/api/payments/mercadopago/webhook",
+            "url": {
+              "raw": "{{base_url}}/api/payments/mercadopago/webhook",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "mercadopago",
+                "webhook"
+              ]
+            },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"type\": \"payment\",\n  \"data\": {\n    \"id\": \"{{paymentId}}\"\n  }\n}"
@@ -2901,7 +2972,18 @@
                 "value": "application/json"
               }
             ],
-            "url": "{{base_url}}/api/payments/mercadopago/webhook",
+            "url": {
+              "raw": "{{base_url}}/api/payments/mercadopago/webhook",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "mercadopago",
+                "webhook"
+              ]
+            },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"type\": \"payment\",\n  \"data\": {\n    \"id\": \"{{paymentId}}\"\n  }\n}"
@@ -2928,7 +3010,18 @@
                 "value": "ts=1710000000,v1=invalid"
               }
             ],
-            "url": "{{base_url}}/api/payments/mercadopago/webhook",
+            "url": {
+              "raw": "{{base_url}}/api/payments/mercadopago/webhook",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "mercadopago",
+                "webhook"
+              ]
+            },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"type\": \"payment\",\n  \"data\": {\n    \"id\": \"{{paymentId}}\"\n  }\n}"
@@ -2951,7 +3044,18 @@
                 "value": "{{adminCookie}}"
               }
             ],
-            "url": "{{base_url}}/api/orders/{{orderId}}/status",
+            "url": {
+              "raw": "{{base_url}}/api/orders/{{orderId}}/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"status\": \"CONFIRMED\"\n}"
