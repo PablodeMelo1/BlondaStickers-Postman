@@ -1928,7 +1928,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"deliveryType\": \"PICKUP\"\n}"
+                  "raw": "{\n  \"deliveryType\": \"PICKUP\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
                 },
                 "url": {
                   "raw": "{{base_url}}/api/orders/checkout",
@@ -1941,7 +1941,7 @@
                     "checkout"
                   ]
                 },
-                "description": "Crea orden PENDING, reserva stock fisico y devuelve initPoint de Mercado Pago."
+                "description": "Crea una orden PENDING, reserva stock fisico y devuelve initPoint de Mercado Pago."
               },
               "response": []
             },
@@ -1958,7 +1958,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"addressId\": \"{{addressId}}\",\n  \"shippingCost\": 180\n}"
+                  "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"addressId\": \"{{addressId}}\",\n  \"shippingOption\": \"DAC_AGENCY\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
                 },
                 "url": {
                   "raw": "{{base_url}}/api/orders/checkout",
@@ -1971,7 +1971,7 @@
                     "checkout"
                   ]
                 },
-                "description": "Alternativa al retiro. Requiere addressId valido del cliente."
+                "description": "Alternativa al retiro. El backend calcula shippingCost usando shippingOption; requiere addressId valido del cliente."
               },
               "response": []
             },
@@ -2003,37 +2003,6 @@
                   ]
                 },
                 "description": "Simula el webhook. El backend consulta el pago real y confirma o cancela la orden."
-              },
-              "response": []
-            },
-            {
-              "name": "Admin - Configurar token Mercado Pago",
-              "id": "2a103394-c55c-4aea-b6ba-3e1afba6243e",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"accessToken\": \"{{mercadoPagoAccessToken}}\"\n}"
-                },
-                "url": {
-                  "raw": "{{base_url}}/api/payments/mercadopago/token",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "payments",
-                    "mercadopago",
-                    "token"
-                  ]
-                },
-                "description": "Requiere usuario admin. Alternativamente configurar MERCADOPAGO_ACCESS_TOKEN en .env."
               },
               "response": []
             },
@@ -2722,6 +2691,349 @@
         }
       ],
       "id": "d1c594d7-ff70-41a4-904a-90bafa94910d"
+    },
+    {
+      "name": "Checkout y pagos seguros",
+      "item": [
+        {
+          "name": "Checkout Mercado Pago con envio DAC agencia",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "{{clientCookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "checkout"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"DAC_AGENCY\",\n  \"addressId\": \"{{addressId}}\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
+            },
+            "description": "El backend calcula shippingCost=240 desde shippingOption, lo incluye como item cobrable y crea preferencia Mercado Pago."
+          },
+          "response": []
+        },
+        {
+          "name": "Checkout transferencia Itau con retiro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "{{clientCookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "checkout"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deliveryType\": \"PICKUP\",\n  \"paymentProvider\": \"TRANSFER\",\n  \"transferBank\": \"ITAU\"\n}"
+            },
+            "description": "Crea orden PENDING con paymentStatus AWAITING_TRANSFER. No llama a Mercado Pago."
+          },
+          "response": []
+        },
+        {
+          "name": "Checkout transferencia Mi Dinero con cadete",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "{{clientCookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "checkout"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"BLONDA_CADETE\",\n  \"addressId\": \"{{addressId}}\",\n  \"paymentProvider\": \"TRANSFER\",\n  \"transferBank\": \"MI_DINERO\"\n}"
+            },
+            "description": "Crea orden de transferencia con shippingCost=250 calculado por backend."
+          },
+          "response": []
+        },
+        {
+          "name": "Error checkout con shippingCost manipulado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "{{clientCookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "checkout"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"DAC_HOME\",\n  \"shippingCost\": 0,\n  \"addressId\": \"{{addressId}}\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
+            },
+            "description": "Debe responder 400 porque el costo de envio nunca viene del cliente."
+          },
+          "response": []
+        },
+        {
+          "name": "Error checkout con shippingOption invalida",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "{{clientCookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "checkout"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"FREE_SHIPPING\",\n  \"addressId\": \"{{addressId}}\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
+            },
+            "description": "Debe responder 400 por opcion de envio invalida."
+          },
+          "response": []
+        },
+        {
+          "name": "Error transferencia sin banco valido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "{{clientCookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/checkout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "checkout"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deliveryType\": \"PICKUP\",\n  \"paymentProvider\": \"TRANSFER\",\n  \"transferBank\": \"BROU\"\n}"
+            },
+            "description": "Debe responder 400 porque transferBank solo acepta ITAU, MI_DINERO o MERCADO_PAGO."
+          },
+          "response": []
+        },
+        {
+          "name": "Webhook Mercado Pago firmado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-request-id",
+                "value": "{{webhookRequestId}}"
+              },
+              {
+                "key": "x-signature",
+                "value": "{{webhookSignature}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/payments/mercadopago/webhook",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "mercadopago",
+                "webhook"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"payment\",\n  \"data\": {\n    \"id\": \"{{paymentId}}\"\n  }\n}"
+            },
+            "description": "Requiere x-signature ts/v1 calculada con MERCADOPAGO_WEBHOOK_SECRET y x-request-id."
+          },
+          "response": []
+        },
+        {
+          "name": "Error webhook sin firma",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/payments/mercadopago/webhook",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "mercadopago",
+                "webhook"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"payment\",\n  \"data\": {\n    \"id\": \"{{paymentId}}\"\n  }\n}"
+            },
+            "description": "Debe responder 401 sin x-signature o x-request-id."
+          },
+          "response": []
+        },
+        {
+          "name": "Error webhook con firma invalida",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-request-id",
+                "value": "{{webhookRequestId}}"
+              },
+              {
+                "key": "x-signature",
+                "value": "ts=1710000000,v1=invalid"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/payments/mercadopago/webhook",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "mercadopago",
+                "webhook"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"payment\",\n  \"data\": {\n    \"id\": \"{{paymentId}}\"\n  }\n}"
+            },
+            "description": "Debe responder 401 y no consultar Mercado Pago."
+          },
+          "response": []
+        },
+        {
+          "name": "Admin confirma transferencia",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "{{adminCookie}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/{{orderId}}/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{orderId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"CONFIRMED\"\n}"
+            },
+            "description": "Admin valida comprobante por fuera del sistema y confirma la orden de transferencia."
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [
@@ -2787,6 +3099,18 @@
       "key": "paymentId",
       "value": "",
       "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    },
+    {
+      "key": "webhookRequestId",
+      "value": "request-123"
+    },
+    {
+      "key": "webhookSignature",
+      "value": "ts=1710000000,v1=REEMPLAZAR_CON_HMAC"
     }
   ]
 }
