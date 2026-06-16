@@ -2065,6 +2065,120 @@
                 "description": "Para variantes fisicas debe responder error de stock insuficiente."
               },
               "response": []
+            },
+            {
+              "name": "08 - Cancelar orden (reembolso MP)",
+              "id": "185AC267-5434-4EB3-B47C-8695308CD31F",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"CANCELLED\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/orders/{{orderId}}/status",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders",
+                    "{{orderId}}",
+                    "status"
+                  ]
+                },
+                "description": "Cancela una orden pagada con Mercado Pago. Dispara el reembolso automatico."
+              },
+              "response": []
+            },
+            {
+              "name": "09 - Ver orden reembolsada",
+              "id": "80C26A42-9192-4A11-9BFF-094E0BEB71E5",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/orders/{{orderId}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders",
+                    "{{orderId}}"
+                  ]
+                },
+                "description": "Verifica que la orden tenga refundId, refundAmount y refundedAt."
+              },
+              "response": []
+            },
+            {
+              "name": "Error - Cancelar orden ya reembolsada",
+              "id": "443C2E06-055F-4278-968B-99347B0ED6CD",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"CANCELLED\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/orders/{{orderId}}/status",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders",
+                    "{{orderId}}",
+                    "status"
+                  ]
+                },
+                "description": "La orden ya fue reembolsada → debe responder 409 Conflict."
+              },
+              "response": []
+            },
+            {
+              "name": "Error - Cancelar orden con fallo en reembolso MP",
+              "id": "6CA3072C-E0C2-487D-A649-449BCCA4BD7E",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"CANCELLED\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/orders/{{orderId}}/status",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "orders",
+                    "{{orderId}}",
+                    "status"
+                  ]
+                },
+                "description": "Si Mercado Pago rechaza el reembolso → debe responder 502 Bad Gateway."
+              },
+              "response": []
             }
           ],
           "id": "0fecf4f4-c0ca-42c5-bb50-ce8c2a1bfe48"
