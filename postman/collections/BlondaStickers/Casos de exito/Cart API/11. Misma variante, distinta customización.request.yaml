@@ -1,0 +1,37 @@
+$kind: http-request
+url: "{{base_url}}/api/cart/items"
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: "{{clientCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "productId": "{{productId}}",
+      "variantId": "{{variantId}}",
+      "quantity": 2,
+      "customization": {
+        "notes": "Con brillo",
+        "fields": { "color": "azul" }
+      }
+    }
+scripts:
+  - type: beforeRequest
+    code: |-
+      // Ejecutar después del caso 10.
+      // Debe crear un item separado (no acumular)
+      // porque la customización es diferente
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      pm.test('nuevo item con distinta customization', function () {
+        pm.response.to.have.status(200);
+      });
+
+      pm.test('hay múltiples items en el carrito', function () {
+        const body = pm.response.json();
+        pm.expect(body.cart.items.length).to.be.at.least(2);
+      });
+    language: text/javascript
+order: 11000

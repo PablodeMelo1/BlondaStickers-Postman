@@ -1,0 +1,18 @@
+$kind: http-request
+description: Debe responder 401 y no consultar Mercado Pago.
+url: "{{base_url}}/api/payments/mercadopago/webhook"
+method: POST
+headers:
+  Content-Type: application/json
+  x-request-id: "{{webhookRequestId}}"
+  x-signature: ts=1710000000,v1=invalid
+body:
+  type: text
+  content: |-
+    {
+      "type": "payment",
+      "data": {
+        "id": "{{paymentId}}"
+      }
+    }
+order: 9000

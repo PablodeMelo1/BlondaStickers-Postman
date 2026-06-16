@@ -1,0 +1,31 @@
+$kind: http-request
+url: "{{base_url}}/api/cart/items"
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: "{{clientCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "productId": "{{productId}}",
+      "variantId": "{{variantId}}",
+      "quantity": 1,
+      "customization": {
+        "color": "verde",
+        "tamaño": "grande"
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('customización plana aceptada', function () {
+        pm.response.to.have.status(200);
+      });
+
+      pm.test('campos planos envueltos en fields', function () {
+        const body = pm.response.json();
+        pm.expect(body).to.have.property('cart');
+      });
+    language: text/javascript
+order: 12000

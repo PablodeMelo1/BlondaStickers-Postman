@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{baseUrl}}/api/categories"
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: "{{adminCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "name": "Invalid Category",
+      "slug": "invalid-category"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('unsupported fields return 400', function () {
+        pm.response.to.have.status(400);
+      });
+    language: text/javascript
+order: 4000

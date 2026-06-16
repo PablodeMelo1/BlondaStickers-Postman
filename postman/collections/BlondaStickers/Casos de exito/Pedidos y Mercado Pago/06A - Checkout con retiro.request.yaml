@@ -1,0 +1,14 @@
+$kind: http-request
+description: Crea una orden PENDING, reserva stock fisico y devuelve initPoint de Mercado Pago.
+url: "{{base_url}}/api/orders/checkout"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "deliveryType": "PICKUP",
+      "paymentProvider": "MERCADO_PAGO"
+    }
+order: 6000

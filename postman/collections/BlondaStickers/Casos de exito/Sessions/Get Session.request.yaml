@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{baseUrl}}/api/auth/get-session"
+method: GET
+headers:
+  Cookie: "{{adminCookie}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('session request is handled', function () {
+        pm.expect(pm.response.code).to.be.oneOf([200, 401]);
+      });
+    language: text/javascript
+order: 4000

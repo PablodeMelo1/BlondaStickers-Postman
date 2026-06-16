@@ -1,0 +1,18 @@
+$kind: http-request
+description: Crea orden de transferencia con shippingCost=250 calculado por backend.
+url: "{{base_url}}/api/orders/checkout"
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: "{{clientCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "deliveryType": "SHIPPING",
+      "shippingOption": "BLONDA_CADETE",
+      "addressId": "{{addressId}}",
+      "paymentProvider": "TRANSFER",
+      "transferBank": "MI_DINERO"
+    }
+order: 3000

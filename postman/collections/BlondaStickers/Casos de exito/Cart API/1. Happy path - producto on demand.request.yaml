@@ -1,0 +1,39 @@
+$kind: http-request
+url: "{{base_url}}/api/cart/items"
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: "{{clientCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "productId": "{{productId}}",
+      "variantId": "{{variantId}}",
+      "quantity": 2
+    }
+scripts:
+  - type: beforeRequest
+    code: |-
+      // Asigná IDs reales en el environment antes de ejecutar
+      // pm.environment.set('productId', 'ID_REAL');
+      // pm.environment.set('variantId', 'ID_REAL');
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      pm.test('producto agregado al carrito', function () {
+        pm.response.to.have.status(200);
+      });
+
+      pm.test('respuesta contiene message y cart', function () {
+        const body = pm.response.json();
+        pm.expect(body).to.have.property('message');
+        pm.expect(body).to.have.property('cart');
+      });
+
+      const body = pm.response.json();
+      if (body.cart && body.cart.items && body.cart.items.length > 0) {
+        pm.environment.set('cartItemId', body.cart.items[0]._id || body.cart.items[0].id);
+      }
+    language: text/javascript
+order: 1000

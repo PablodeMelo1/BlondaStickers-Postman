@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{base_url}}/api/products/685f2d8c123456789abc1234"
+method: GET
+order: 3000

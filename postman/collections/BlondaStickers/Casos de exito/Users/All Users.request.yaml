@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base_url}}/api/users"
+method: GET
+headers:
+  Content-Type: "{{Content-Type}}"
+  Origin: "{{Origin}}"
+order: 1000

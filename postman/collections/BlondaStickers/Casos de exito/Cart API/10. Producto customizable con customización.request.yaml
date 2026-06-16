@@ -1,0 +1,31 @@
+$kind: http-request
+url: "{{base_url}}/api/cart/items"
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: "{{clientCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "productId": "{{productId}}",
+      "variantId": "{{variantId}}",
+      "quantity": 1,
+      "customization": {
+        "notes": "Sin borde blanco",
+        "fields": { "color": "rojo" }
+      }
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('item customizado agregado', function () {
+        pm.response.to.have.status(200);
+      });
+
+      pm.test('respuesta contiene cart con customization', function () {
+        const body = pm.response.json();
+        pm.expect(body).to.have.property('cart');
+      });
+    language: text/javascript
+order: 10000

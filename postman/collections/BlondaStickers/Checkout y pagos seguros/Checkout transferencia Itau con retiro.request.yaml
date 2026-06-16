@@ -1,0 +1,16 @@
+$kind: http-request
+description: Crea orden PENDING con paymentStatus AWAITING_TRANSFER. No llama a Mercado Pago.
+url: "{{base_url}}/api/orders/checkout"
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: "{{clientCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "deliveryType": "PICKUP",
+      "paymentProvider": "TRANSFER",
+      "transferBank": "ITAU"
+    }
+order: 2000

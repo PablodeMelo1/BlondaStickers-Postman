@@ -1,0 +1,18 @@
+$kind: http-request
+description: Debe responder 400 porque el costo de envio nunca viene del cliente.
+url: "{{base_url}}/api/orders/checkout"
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: "{{clientCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "deliveryType": "SHIPPING",
+      "shippingOption": "DAC_HOME",
+      "shippingCost": 0,
+      "addressId": "{{addressId}}",
+      "paymentProvider": "MERCADO_PAGO"
+    }
+order: 4000

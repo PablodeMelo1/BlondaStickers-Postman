@@ -1,0 +1,16 @@
+$kind: http-request
+description: Alternativa al retiro. El backend calcula shippingCost usando shippingOption; requiere addressId valido del cliente.
+url: "{{base_url}}/api/orders/checkout"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "deliveryType": "SHIPPING",
+      "addressId": "{{addressId}}",
+      "shippingOption": "DAC_AGENCY",
+      "paymentProvider": "MERCADO_PAGO"
+    }
+order: 7000

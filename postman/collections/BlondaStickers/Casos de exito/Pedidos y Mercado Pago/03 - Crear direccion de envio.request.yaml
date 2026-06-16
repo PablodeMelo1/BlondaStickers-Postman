@@ -1,0 +1,17 @@
+$kind: http-request
+description: Usar si el cliente no tiene direccion. Copiar el _id de la direccion creada a addressId.
+url: "{{base_url}}/api/users/{{userId}}/addresses"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "street": "Av. Italia",
+      "number": 1234,
+      "city": "Montevideo",
+      "department": "Montevideo",
+      "floorApt": "2B"
+    }
+order: 3000

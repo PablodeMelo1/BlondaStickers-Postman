@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{base_url}}/api/auth/sign-up/email"
+method: POST
+headers:
+  Content-Type: "{{Content-Type}}"
+  Origin: "{{Origin}}"
+body:
+  type: json
+  content: "{\r
+
+    \  \"name\": \"Santiago Prado\",\r
+
+    \  \"firstName\": \"Santiago\",\r
+
+    \  \"lastName\": \"Prado\",\r
+
+    \  \"email\": \"santiago@gmail.com\",\r
+
+    \  \"password\": \"123456789\",\r
+
+    \  \"phone\": 94901505\r
+
+    }"
+order: 1000

@@ -1,0 +1,14 @@
+$kind: http-request
+description: Configurar blockedCategoryId con una categoria que tenga productos asociados para validar el 409. Si queda vacia o no existe, el endpoint puede responder 404.
+url: "{{baseUrl}}/api/categories/{{blockedCategoryId}}"
+method: DELETE
+headers:
+  Cookie: "{{adminCookie}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('associated category delete is blocked', function () {
+        pm.expect(pm.response.code).to.be.oneOf([409, 404]);
+      });
+    language: text/javascript
+order: 17000

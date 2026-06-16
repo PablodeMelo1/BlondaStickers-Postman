@@ -1,0 +1,25 @@
+$kind: http-request
+url: "{{baseUrl}}/api/categories/{{categoryId}}"
+method: PATCH
+headers:
+  Content-Type: application/json
+  Cookie: "{{adminCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "name": "{{categoryName}} Updated",
+      "description": "Updated from Postman",
+      "visibleInMenu": false
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('category is updated', function () {
+        pm.response.to.have.status(200);
+      });
+
+      const body = pm.response.json();
+      pm.environment.set('categoryName', body.name);
+    language: text/javascript
+order: 8000

@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base_url}}/api/products/{{product_id}}/visibility"
+method: PATCH
+body:
+  type: json
+  content: ""
+order: 6000

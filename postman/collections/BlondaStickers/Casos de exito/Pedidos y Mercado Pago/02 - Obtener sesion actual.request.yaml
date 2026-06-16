@@ -1,0 +1,5 @@
+$kind: http-request
+description: Copiar el id de usuario a userId si se necesita crear o listar direcciones.
+url: "{{base_url}}/api/auth/get-session"
+method: GET
+order: 2000

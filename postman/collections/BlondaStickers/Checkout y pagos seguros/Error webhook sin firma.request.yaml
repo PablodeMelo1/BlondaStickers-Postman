@@ -1,0 +1,16 @@
+$kind: http-request
+description: Debe responder 401 sin x-signature o x-request-id.
+url: "{{base_url}}/api/payments/mercadopago/webhook"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "type": "payment",
+      "data": {
+        "id": "{{paymentId}}"
+      }
+    }
+order: 8000

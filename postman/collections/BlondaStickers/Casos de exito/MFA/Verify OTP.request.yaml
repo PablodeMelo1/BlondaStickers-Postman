@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{base_url}}/api/auth/two-factor/verify-otp"
+method: POST
+headers:
+  Content-Type: "{{Content-Type}}"
+  Origin: "{{Origin}}"
+body:
+  type: json
+  content: "{\r\n  \"code\": \"139369\"\r\n}"
+order: 4000

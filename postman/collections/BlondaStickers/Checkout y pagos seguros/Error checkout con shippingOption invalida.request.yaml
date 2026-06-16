@@ -1,0 +1,17 @@
+$kind: http-request
+description: Debe responder 400 por opcion de envio invalida.
+url: "{{base_url}}/api/orders/checkout"
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: "{{clientCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "deliveryType": "SHIPPING",
+      "shippingOption": "FREE_SHIPPING",
+      "addressId": "{{addressId}}",
+      "paymentProvider": "MERCADO_PAGO"
+    }
+order: 5000

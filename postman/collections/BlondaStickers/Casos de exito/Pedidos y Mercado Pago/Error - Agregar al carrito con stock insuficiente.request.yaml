@@ -1,0 +1,15 @@
+$kind: http-request
+description: Para variantes fisicas debe responder error de stock insuficiente.
+url: "{{base_url}}/api/cart/items"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "productId": "{{productId}}",
+      "variantId": "{{variantId}}",
+      "quantity": 9999
+    }
+order: 10000

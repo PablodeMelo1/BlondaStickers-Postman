@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{base_url}}/api/products/685f2d8c123456789abc1234"
+method: PATCH
+body:
+  type: json
+  content: |-
+    {
+      "precioVenta": 500,
+      "costoUnitario": 200,
+      "activo": false
+    }
+order: 4000

@@ -1,0 +1,29 @@
+$kind: http-request
+url: "{{baseUrl}}/api/categories"
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: "{{adminCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "name": "{{categoryName}}",
+      "description": "{{categoryDescription}}",
+      "visibleInMenu": true
+    }
+scripts:
+  - type: beforeRequest
+    code: pm.environment.set('categoryName', `Postman Stickers ${Date.now()}`);
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      pm.test('category is created', function () {
+        pm.response.to.have.status(201);
+      });
+
+      const body = pm.response.json();
+      pm.environment.set('categoryId', body._id || body.id);
+      pm.environment.set('categoryName', body.name);
+    language: text/javascript
+order: 1000

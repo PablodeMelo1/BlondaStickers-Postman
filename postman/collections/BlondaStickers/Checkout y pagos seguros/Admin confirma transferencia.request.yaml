@@ -1,0 +1,14 @@
+$kind: http-request
+description: Admin valida comprobante por fuera del sistema y confirma la orden de transferencia.
+url: "{{base_url}}/api/orders/{{orderId}}/status"
+method: PATCH
+headers:
+  Content-Type: application/json
+  Cookie: "{{adminCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "status": "CONFIRMED"
+    }
+order: 10000

@@ -1,0 +1,14 @@
+$kind: http-request
+description: Inicia sesion para que Postman conserve la cookie de Better Auth.
+url: "{{base_url}}/api/auth/sign-in/email"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "email": "{{email}}",
+      "password": "{{password}}"
+    }
+order: 1000

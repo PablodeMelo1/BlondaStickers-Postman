@@ -1,0 +1,18 @@
+$kind: http-request
+description: Requiere x-signature ts/v1 calculada con MERCADOPAGO_WEBHOOK_SECRET y x-request-id.
+url: "{{base_url}}/api/payments/mercadopago/webhook"
+method: POST
+headers:
+  Content-Type: application/json
+  x-request-id: "{{webhookRequestId}}"
+  x-signature: "{{webhookSignature}}"
+body:
+  type: text
+  content: |-
+    {
+      "type": "payment",
+      "data": {
+        "id": "{{paymentId}}"
+      }
+    }
+order: 7000

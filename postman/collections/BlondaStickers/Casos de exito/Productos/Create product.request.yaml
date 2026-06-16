@@ -1,0 +1,42 @@
+$kind: http-request
+url: "{{base_url}}/api/products"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Sticker Pockemon",
+      "descripcion": "Sticker holográfico",
+      "precioVenta": 300,
+      "costoUnitario": 100,
+      "imagenes": [
+        "https://miweb.com/sticker2.png"
+      ],
+      "activo": true,
+      "esPersonalizable": true,
+      "esBajoDemanda": false,
+      "categoria": "stickers",
+      "stock": {
+        "stockActual": 60,
+        "stockMinimo": 10
+      },
+      "camposPersonalizacion": [
+        {
+          "nombre": "Nombre",
+          "tipo": "texto",
+          "obligatorio": true,
+          "descripcion": "Nombre personalizado"
+        }
+      ]
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      const response = pm.response.json();
+
+      if (response._id) {
+          pm.environment.set("product_id", response._id);
+          console.log("¡ID guardado!: " + response._id);
+      }
+    language: text/javascript
+order: 1000

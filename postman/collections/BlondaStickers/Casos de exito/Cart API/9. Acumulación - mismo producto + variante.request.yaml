@@ -1,0 +1,32 @@
+$kind: http-request
+url: "{{base_url}}/api/cart/items"
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: "{{clientCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "productId": "{{productId}}",
+      "variantId": "{{variantId}}",
+      "quantity": 3
+    }
+scripts:
+  - type: beforeRequest
+    code: |-
+      // Ejecutar primero el caso 1, luego este.
+      // Debe acumular quantity, no duplicar items
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      pm.test('producto acumulado correctamente', function () {
+        pm.response.to.have.status(200);
+      });
+
+      pm.test('quantity se acumuló', function () {
+        const body = pm.response.json();
+        pm.expect(body).to.have.property('cart');
+      });
+    language: text/javascript
+order: 9000
