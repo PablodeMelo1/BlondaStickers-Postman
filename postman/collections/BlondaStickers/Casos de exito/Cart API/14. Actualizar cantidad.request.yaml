@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{base_url}}/api/cart/items/{{cartItemId}}"
+method: PUT
+headers:
+  Content-Type: application/json
+  Cookie: "{{clientCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "quantity": 2
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('actualiza la cantidad', function () {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json()).to.have.property('items');
+      });
+    language: text/javascript
+order: 14000

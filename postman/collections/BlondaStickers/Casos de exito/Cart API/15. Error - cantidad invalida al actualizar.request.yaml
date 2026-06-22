@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{base_url}}/api/cart/items/{{cartItemId}}"
+method: PUT
+headers:
+  Content-Type: application/json
+  Cookie: "{{clientCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "quantity": 0
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('rechaza cantidad invalida', function () {
+        pm.response.to.have.status(400);
+      });
+    language: text/javascript
+order: 15000
