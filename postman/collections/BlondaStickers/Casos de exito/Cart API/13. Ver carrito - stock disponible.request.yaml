@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{base_url}}/api/cart/items"
+method: GET
+headers:
+  Cookie: "{{clientCookie}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('lista el carrito enriquecido', function () {
+        pm.response.to.have.status(200);
+        const body = pm.response.json();
+        pm.expect(body).to.have.property('items');
+        body.items.forEach(function (item) {
+          pm.expect(item).to.have.property('stock');
+          pm.expect(item).to.have.property('isOnDemand');
+        });
+      });
+
+      const body = pm.response.json();
+      if (body.items && body.items.length > 0) {
+        pm.environment.set('cartItemId', body.items[0]._id || body.items[0].id);
+      }
+    language: text/javascript
+order: 13000

@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{base_url}}/api/cart/items/{{cartItemId}}"
+method: DELETE
+headers:
+  Cookie: "{{clientCookie}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('elimina el item', function () {
+        pm.response.to.have.status(200);
+      });
+    language: text/javascript
+order: 18000

@@ -1,0 +1,23 @@
+$kind: http-request
+url: "{{base_url}}/api/cart/items/{{cartItemId}}"
+method: PUT
+headers:
+  Content-Type: application/json
+  Cookie: "{{clientCookie}}"
+body:
+  type: text
+  content: |-
+    {
+      "quantity": 999
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('rechaza cantidad sobre stock', function () {
+        pm.response.to.have.status(400);
+        const body = pm.response.json();
+        pm.expect(body).to.have.property('error');
+        pm.expect(body).to.have.property('maxQuantity');
+      });
+    language: text/javascript
+order: 16000
