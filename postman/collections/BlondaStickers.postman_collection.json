@@ -3148,6 +3148,275 @@
           "response": []
         }
       ]
+    },
+    {
+        "name": "Checkout UI RF5.4 RF5.5 RF7.1",
+        "item": [
+            {
+                "name": "Checkout Mercado Pago con direccion guardada",
+                "request": {
+                    "method": "POST",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Cookie",
+                            "value": "{{clientCookie}}"
+                        }
+                    ],
+                    "url": {
+                        "raw": "{{base_url}}/api/orders/checkout",
+                        "host": [
+                            "{{base_url}}"
+                        ],
+                        "path": [
+                            "api",
+                            "orders",
+                            "checkout"
+                        ]
+                    },
+                    "body": {
+                        "mode": "raw",
+                        "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"DAC_AGENCY\",\n  \"addressId\": \"{{addressId}}\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
+                    },
+                    "description": "Caso feliz de la UI: valida stock, usa direccion precargada y devuelve initPoint/sandboxInitPoint para redirigir a Mercado Pago."
+                },
+                "response": []
+            },
+            {
+                "name": "Checkout Mercado Pago con direccion nueva",
+                "request": {
+                    "method": "POST",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Cookie",
+                            "value": "{{clientCookie}}"
+                        }
+                    ],
+                    "url": {
+                        "raw": "{{base_url}}/api/orders/checkout",
+                        "host": [
+                            "{{base_url}}"
+                        ],
+                        "path": [
+                            "api",
+                            "orders",
+                            "checkout"
+                        ]
+                    },
+                    "body": {
+                        "mode": "raw",
+                        "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"DAC_HOME\",\n  \"shippingAddress\": {\n    \"street\": \"Av. Italia\",\n    \"number\": 1234,\n    \"city\": \"Montevideo\",\n    \"department\": \"Montevideo\",\n    \"floorApt\": \"Apto 501\"\n  },\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
+                    },
+                    "description": "Caso feliz de la UI: el cliente ingresa una direccion nueva que queda asociada al pedido."
+                },
+                "response": []
+            },
+            {
+                "name": "Checkout transferencia ITAU con retiro",
+                "request": {
+                    "method": "POST",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Cookie",
+                            "value": "{{clientCookie}}"
+                        }
+                    ],
+                    "url": {
+                        "raw": "{{base_url}}/api/orders/checkout",
+                        "host": [
+                            "{{base_url}}"
+                        ],
+                        "path": [
+                            "api",
+                            "orders",
+                            "checkout"
+                        ]
+                    },
+                    "body": {
+                        "mode": "raw",
+                        "raw": "{\n  \"deliveryType\": \"PICKUP\",\n  \"paymentProvider\": \"TRANSFER\",\n  \"transferBank\": \"ITAU\"\n}"
+                    },
+                    "description": "Caso feliz de transferencia ITAU: crea pedido pendiente de transferencia sin direccion de envio."
+                },
+                "response": []
+            },
+            {
+                "name": "Checkout transferencia MiDinero con direccion guardada",
+                "request": {
+                    "method": "POST",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Cookie",
+                            "value": "{{clientCookie}}"
+                        }
+                    ],
+                    "url": {
+                        "raw": "{{base_url}}/api/orders/checkout",
+                        "host": [
+                            "{{base_url}}"
+                        ],
+                        "path": [
+                            "api",
+                            "orders",
+                            "checkout"
+                        ]
+                    },
+                    "body": {
+                        "mode": "raw",
+                        "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"BLONDA_CADETE\",\n  \"addressId\": \"{{addressId}}\",\n  \"paymentProvider\": \"TRANSFER\",\n  \"transferBank\": \"MI_DINERO\"\n}"
+                    },
+                    "description": "Caso feliz de transferencia MiDinero: crea pedido pendiente y calcula envio en backend."
+                },
+                "response": []
+            },
+            {
+                "name": "Checkout transferencia Mercado Pago con direccion guardada",
+                "request": {
+                    "method": "POST",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Cookie",
+                            "value": "{{clientCookie}}"
+                        }
+                    ],
+                    "url": {
+                        "raw": "{{base_url}}/api/orders/checkout",
+                        "host": [
+                            "{{base_url}}"
+                        ],
+                        "path": [
+                            "api",
+                            "orders",
+                            "checkout"
+                        ]
+                    },
+                    "body": {
+                        "mode": "raw",
+                        "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"DAC_HOME\",\n  \"addressId\": \"{{addressId}}\",\n  \"paymentProvider\": \"TRANSFER\",\n  \"transferBank\": \"MERCADO_PAGO\"\n}"
+                    },
+                    "description": "Caso feliz de transferencia Mercado Pago: no redirige a checkout externo, queda pendiente de comprobacion/confirmacion."
+                },
+                "response": []
+            },
+            {
+                "name": "Error checkout stock insuficiente",
+                "request": {
+                    "method": "POST",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Cookie",
+                            "value": "{{clientCookie}}"
+                        }
+                    ],
+                    "url": {
+                        "raw": "{{base_url}}/api/orders/checkout",
+                        "host": [
+                            "{{base_url}}"
+                        ],
+                        "path": [
+                            "api",
+                            "orders",
+                            "checkout"
+                        ]
+                    },
+                    "body": {
+                        "mode": "raw",
+                        "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"DAC_AGENCY\",\n  \"addressId\": \"{{addressId}}\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
+                    },
+                    "description": "Preparar el carrito con cantidad mayor al stock disponible. Debe responder 409 con availableStock y requestedQuantity; la UI muestra el error y no procesa el pedido."
+                },
+                "response": []
+            },
+            {
+                "name": "Error checkout sin direccion de envio",
+                "request": {
+                    "method": "POST",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Cookie",
+                            "value": "{{clientCookie}}"
+                        }
+                    ],
+                    "url": {
+                        "raw": "{{base_url}}/api/orders/checkout",
+                        "host": [
+                            "{{base_url}}"
+                        ],
+                        "path": [
+                            "api",
+                            "orders",
+                            "checkout"
+                        ]
+                    },
+                    "body": {
+                        "mode": "raw",
+                        "raw": "{\n  \"deliveryType\": \"SHIPPING\",\n  \"shippingOption\": \"DAC_AGENCY\",\n  \"paymentProvider\": \"MERCADO_PAGO\"\n}"
+                    },
+                    "description": "Caso de error esperado: 400 porque el envio requiere addressId o shippingAddress."
+                },
+                "response": []
+            },
+            {
+                "name": "Error transferencia sin banco valido",
+                "request": {
+                    "method": "POST",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Cookie",
+                            "value": "{{clientCookie}}"
+                        }
+                    ],
+                    "url": {
+                        "raw": "{{base_url}}/api/orders/checkout",
+                        "host": [
+                            "{{base_url}}"
+                        ],
+                        "path": [
+                            "api",
+                            "orders",
+                            "checkout"
+                        ]
+                    },
+                    "body": {
+                        "mode": "raw",
+                        "raw": "{\n  \"deliveryType\": \"PICKUP\",\n  \"paymentProvider\": \"TRANSFER\",\n  \"transferBank\": \"BROU\"\n}"
+                    },
+                    "description": "Caso de error esperado: 400 porque transferBank solo acepta ITAU, MI_DINERO o MERCADO_PAGO."
+                },
+                "response": []
+            }
+        ]
     }
   ],
   "variable": [
